@@ -1,19 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package itson.org.ghosttracks.presentacion.administrador;
 
 import itson.org.ghosttracks.controladores.ControladorVentasAdmin;
 import itson.org.ghosttracks.dtos.PedidoDTO;
 import static itson.org.ghosttracks.enums.EstadoPedidoDTO.EN_PREPARACION;
-import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 
 /**
  *
  * @author nafbr
  */
-public class PanelConfirmarEmpaquetado extends javax.swing.JPanel {
+public class PanelConfirmarEmpaquetado extends JPanel {
 
     private final ControladorVentasAdmin control;
    
@@ -26,9 +22,13 @@ public class PanelConfirmarEmpaquetado extends javax.swing.JPanel {
         this.control = ctrl;
         this.pedido = pedido;
         initComponents();
-        lblCliente.setText(pedido.getCliente().getNombres());
+        
+        if (pedido.getCliente() != null) {
+            String nombreCompleto = control.obtenerNombreClienteCompleto(pedido.getCliente().getIdUsuario());
+            lblCliente.setText(nombreCompleto);
+        }
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -97,7 +97,8 @@ public class PanelConfirmarEmpaquetado extends javax.swing.JPanel {
 
     private void btnConfirmarPaqueteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConfirmarPaqueteActionPerformed
        control.actualizarEstadoPedido(this.pedido, EN_PREPARACION);
-        JOptionPane.showMessageDialog(this, "Estado de pedido actualizado");
+       control.mostrarMensaje("¡Éxito! El estado del pedido se actualizó a 'En Preparación'.", false);
+        
        control.volverAVentas();
     }//GEN-LAST:event_btnConfirmarPaqueteActionPerformed
 

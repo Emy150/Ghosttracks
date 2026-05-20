@@ -1,4 +1,3 @@
-
 package itson.org.ghosttracks.dtos;
 
 import itson.org.ghosttracks.enums.TipoPago;

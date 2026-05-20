@@ -1,7 +1,6 @@
 
 package itson.org.ghosttracks.presentacion.cliente;
 
-import itson.org.ghosttracks.mocks.ProductosMockDAO;
 import itson.org.ghosttracks.enums.TipoProducto;
 import itson.org.ghosttracks.utilerias.pnlProductoCatalogo;
 import itson.org.ghosttracks.controladores.ControlVentaEnLinea;
@@ -26,10 +25,12 @@ public class PantallaInicioCliente extends javax.swing.JPanel {
     public PantallaInicioCliente(ControlVentaEnLinea ctrl) {
         this.control = ctrl;
         initComponents();
+
+        jScrollPane2.getVerticalScrollBar().setUnitIncrement(20);
+
         control.llenarCatalogo(this);
         configurarFiltros();
         inicializarFiltrosGeneros();
-        
     }
 
     private void configurarFiltros() {
@@ -160,6 +161,8 @@ public class PantallaInicioCliente extends javax.swing.JPanel {
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         pnlCatalogo = new javax.swing.JPanel();
+
+        setPreferredSize(new java.awt.Dimension(1100, 675));
 
         pnlPrincipal.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -344,9 +347,9 @@ public class PantallaInicioCliente extends javax.swing.JPanel {
         pnlContenidoLayout.setHorizontalGroup(
             pnlContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlContenidoLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(panelRedondeado3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(pnlContenidoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlContenidoLayout.createSequentialGroup()
                         .addComponent(pnlVinilos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -354,8 +357,8 @@ public class PantallaInicioCliente extends javax.swing.JPanel {
                         .addComponent(pnlCds, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(pnlCassettes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addComponent(pnlCatalogo, javax.swing.GroupLayout.DEFAULT_SIZE, 803, Short.MAX_VALUE))
+                        .addGap(0, 58, Short.MAX_VALUE))
+                    .addComponent(pnlCatalogo, javax.swing.GroupLayout.DEFAULT_SIZE, 809, Short.MAX_VALUE))
                 .addContainerGap())
         );
         pnlContenidoLayout.setVerticalGroup(

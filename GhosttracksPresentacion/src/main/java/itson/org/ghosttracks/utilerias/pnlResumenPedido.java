@@ -31,8 +31,7 @@ public class pnlResumenPedido extends javax.swing.JPanel {
     
     public void cargarResumen(CarritoDTO carrito) {
         pnlLista.removeAll();
-        // carrito.calcularTotalGeneral();
-        if (carrito.getProductos() != null) {
+        if (carrito != null && carrito.getProductos() != null) {
             for (ItemCarritoDTO item : carrito.getProductos()) {
                 ProductoDTO prod = item.getProductoSeleccionado();
                 Integer cant = item.getCantidad() != null ? item.getCantidad() : 0;
@@ -41,10 +40,15 @@ public class pnlResumenPedido extends javax.swing.JPanel {
             }
         }
 
-        lblSubtotalDisplay2.setText(String.format("$%.2f", carrito.getSubtotal()));
-        lblTaxDisplay.setText(String.format("$%.2f", carrito.getImpuestos()));
-        lblTotalDisplay.setText(String.format("$%.2f", carrito.getTotal()));
-        
+        double sub = (carrito != null && carrito.getSubtotal() != null) ? carrito.getSubtotal() : 0.0;
+        double tax = (carrito != null && carrito.getImpuestos() != null) ? carrito.getImpuestos() : 0.0;
+        double tot = (carrito != null && carrito.getTotal() != null) ? carrito.getTotal() : 0.0;
+
+        // 3. Pintamos los textos sin que Java explote
+        lblSubtotalDisplay2.setText(String.format("$%.2f", sub));
+        lblTaxDisplay.setText(String.format("$%.2f", tax));
+        lblTotalDisplay.setText(String.format("$%.2f", tot));
+
         pnlLista.revalidate();
         pnlLista.repaint();
     }

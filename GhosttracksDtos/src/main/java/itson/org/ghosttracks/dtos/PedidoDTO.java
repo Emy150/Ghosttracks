@@ -1,4 +1,3 @@
-
 package itson.org.ghosttracks.dtos;
 
 import itson.org.ghosttracks.enums.EstadoPedidoDTO;
@@ -10,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class PedidoDTO {
 
-    private Long idPedido;
+    private String idPedido;
     private String folio;
     private ClienteDTO cliente;
     private CarritoDTO carrito;
@@ -26,11 +25,11 @@ public class PedidoDTO {
     public PedidoDTO() {
     }
 
-    public Long getIdPedido() {
+    public String getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(Long idPedido) {
+    public void setIdPedido(String idPedido) {
         this.idPedido = idPedido;
     }
 
@@ -121,7 +120,4 @@ public class PedidoDTO {
     public void setPago(PagoDTO pago) {
         this.pago = pago;
     }
-    
-    
-    
 }

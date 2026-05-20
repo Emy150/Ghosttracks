@@ -24,6 +24,7 @@ public class PantallaVistaProducto extends javax.swing.JPanel {
         cargarDatosProducto();
         cargarSugerenciasAlAzar();
         configurarBotonesCantidad();
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(20);
     }
 
     /**
@@ -299,19 +300,12 @@ public class PantallaVistaProducto extends javax.swing.JPanel {
     }//GEN-LAST:event_AniadirProductoActionPerformed
 
     private void cargarDatosProducto() {
-        lblNombreProducto.setText(producto.getNombre());
+        lblNombreProducto.setText(producto.getTitulo());
         lblArtista.setText(producto.getArtista());
         lblPrecio.setText(String.format("$%.2f", producto.getPrecio()));
 
-        if (producto.getSetlist() != null && !producto.getSetlist().isEmpty()) {
-            String canciones = String.join("<br>", producto.getSetlist());
-            lblSetlist.setText("<html><div style='text-align:center;'>" + canciones + "</div></html>");
-        } else {
-            lblSetlist.setText("Setlist no disponible");
-        }
-
         try {
-            String nombreArchivo = producto.getImgProducto();
+            byte[] nombreArchivo = producto.getImg();
             String ruta = "/imgVistaProducto/" + nombreArchivo;
             
             if (ruta != null && !ruta.isEmpty()) {
@@ -326,7 +320,7 @@ public class PantallaVistaProducto extends javax.swing.JPanel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error cargando imagen principal de: " + producto.getNombre());
+            System.out.println("Error cargando imagen principal de: " + producto.getTitulo());
             lblImgProducto.setIcon(null);
             lblImgProducto.setText("Imagen no disp.");
         }
@@ -340,7 +334,7 @@ public class PantallaVistaProducto extends javax.swing.JPanel {
 
                 List<ProductoDTO> productosFiltrados = new java.util.ArrayList<>();
                 for (ProductoDTO p : todosLosProductos) {
-                    if (!p.getNombre().equals(this.producto.getNombre())) {
+                    if (!p.getTitulo().equals(this.producto.getTitulo())) {
                         productosFiltrados.add(p);
                     }
                 }

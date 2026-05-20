@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package itson.org.ghosttracks.presentacion.administrador;
 
 import itson.org.ghosttracks.controladores.ControladorVentasAdmin;
@@ -23,7 +19,11 @@ public class PanelDatosPaquete extends javax.swing.JPanel {
         this.control = ctrl;
         this.pedido = pedido;
         initComponents();
-        lblCliente.setText(pedido.getCliente().getNombres());
+        
+        if (pedido.getCliente() != null) {
+            String nombreCompleto = control.obtenerNombreClienteCompleto(pedido.getCliente().getIdUsuario());
+            lblCliente.setText(nombreCompleto);
+        }
     }
 
     /**

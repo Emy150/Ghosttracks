@@ -1,4 +1,3 @@
-
 package itson.org.ghosttracks.entidades;
 
 import itson.org.ghosttracks.enums.TipoPago;

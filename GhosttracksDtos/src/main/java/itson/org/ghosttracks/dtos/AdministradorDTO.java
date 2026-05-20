@@ -4,34 +4,20 @@ package itson.org.ghosttracks.dtos;
  *
  * @author emyla
  */
-public class AdministradorDTO extends UsuarioDTO{
+public class AdministradorDTO extends UsuarioDTO {
     
-    private String numeroEmpleado;
-
     public AdministradorDTO() {
         super();
     }
 
     public AdministradorDTO(
-            String numeroEmpleado, 
-            Long idUsuario, 
-            String nombres, 
+            String idUsuario, 
+            String nombre, 
             String apellidoPaterno, 
             String apellidoMaterno, 
             String correo, 
-            String contraseña
+            String contrasenia
     ) {
-        super(idUsuario, nombres, apellidoPaterno, apellidoMaterno, correo, contraseña);
-        this.numeroEmpleado = numeroEmpleado;
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correo, contrasenia);
     }
-
-    public String getNumeroEmpleado() {
-        return numeroEmpleado;
-    }
-
-    public void setNumeroEmpleado(String numeroEmpleado) {
-        this.numeroEmpleado = numeroEmpleado;
-    }
-    
-    
 }

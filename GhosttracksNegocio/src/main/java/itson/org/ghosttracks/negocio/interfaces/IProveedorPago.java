@@ -5,7 +5,6 @@ import itson.org.ghosttracks.negocio.objetosNegocio.Excepciones.NegocioException
 
 public interface IProveedorPago {
     
-boolean cobrar(String tarjeta, Double monto, TipoPago tipo) throws NegocioException;
-
+    boolean cobrar(String tarjeta, Double monto, TipoPago tipo) throws NegocioException;
 
 }

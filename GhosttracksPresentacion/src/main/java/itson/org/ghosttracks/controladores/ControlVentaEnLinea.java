@@ -1,4 +1,3 @@
-
 package itson.org.ghosttracks.controladores;
 
 import itson.org.ghosttracks.dtos.CarritoDTO;
@@ -23,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author oliro
+ * Controlador para gestionar el flujo de la venta en línea y catálogo de clientes.
+ * @author oliro, emyla
  */
 public class ControlVentaEnLinea {
     
@@ -40,8 +39,8 @@ public class ControlVentaEnLinea {
         this.pedidoBuilder = new PedidoDTOBuilder();
     }
     
-    //Navegacion
-     public void irAInicio() {
+    // NAVEGACIÓN
+    public void irAInicio() {
         navegador.irInicioCliente();
     }
  
@@ -61,7 +60,7 @@ public class ControlVentaEnLinea {
         navegador.irVistaProducto(productoSeleccionado);
     }
     
-    //Cargar vistas
+    // VISTAS
     public void llenarTablaCarrito(PantallaCarrito vista) {
         vista.llenarTabla(carrito);
     }
@@ -77,7 +76,7 @@ public class ControlVentaEnLinea {
  
     /**
      * Obtiene el catálogo completo de productos disponibles.
-     * Útil para cuando necesitamos la lista de datos puros (como en las sugerencias al azar).
+     * Útil para cuando necesitamos la lista de datos puro.
      */
     public List<ProductoDTO> obtenerCatalogoCompleto() {
         try {
@@ -91,7 +90,7 @@ public class ControlVentaEnLinea {
     public void obtenerCatalogoPorTipo(PantallaInicioCliente vista, TipoProducto tipo) {
         try {
             List<ProductoDTO> productosFiltrados = ventaFachada.obtenerCatalogo().stream()
-                    .filter(p -> p.getTipoProducto() == tipo)
+                    .filter(p -> p.getTipo() != null && p.getTipo().equalsIgnoreCase(tipo.name()))
                     .toList();
             vista.cargarCatalogo(productosFiltrados);
         } catch (VentaEnLineaException ex) {
@@ -118,8 +117,7 @@ public class ControlVentaEnLinea {
         }
     }
     
-    
-    //Flujo de la compra
+    // COMPRA
     public void guardarDatosEntrega(DireccionEntregaDTO dto) {
         pedidoBuilder.setDireccionEntrega(dto);
     }
@@ -141,7 +139,6 @@ public class ControlVentaEnLinea {
         try {
             ClienteDTO clienteLogueado = SesionUsuario.getInstancia().getCliente();
  
-            // Hardcodeada
             SucursalDTO sucursal = new SucursalDTO();
             sucursal.setNombre("Obreyork 1");
  
@@ -166,8 +163,7 @@ public class ControlVentaEnLinea {
         }
     }
     
-    //Gestión del carrito
-    
+    // CARRITO
     public void agregarProductoCarrito(ProductoDTO producto, Integer cantidad) {
         try {
             this.carrito = ventaFachada.agregarAlCarrito(this.carrito, producto, cantidad);
@@ -176,7 +172,7 @@ public class ControlVentaEnLinea {
         }
     }
  
-    public void eliminarProductoCarrito(Long idProducto) {
+    public void eliminarProductoCarrito(String idProducto) {
         try {
             this.carrito = ventaFachada.eliminarDelCarrito(this.carrito, idProducto);
         } catch (VentaEnLineaException ex) {
@@ -184,9 +180,8 @@ public class ControlVentaEnLinea {
         }
     }
     
-    //Utilidades
+    // UTILIDAD
     public void mostrarMensaje(String mensaje, boolean esError) {
         navegador.mostrarMensaje(mensaje, esError);
     }
-    
 }

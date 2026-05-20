@@ -1,11 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.negocio.mappers;
 
 import itson.org.ghosttracks.dtos.ProductoDTO;
 import itson.org.ghosttracks.entidades.Producto;
+import itson.org.ghosttracks.entidades.Imagen; 
+import itson.org.ghosttracks.enums.EstadoProducto;
+import itson.org.ghosttracks.enums.TipoProducto;
 
 /**
  *
@@ -23,15 +22,24 @@ public class ProductoMapper {
 
         ProductoDTO dto = new ProductoDTO();
         dto.setIdProducto(entidad.getIdProducto());
-        dto.setNombre(entidad.getNombre());
-        dto.setImgProducto(entidad.getImgProducto());
-        dto.setTipoProducto(entidad.getTipo());
+        dto.setTitulo(entidad.getTitulo());
         dto.setArtista(entidad.getArtista());
-        dto.setGenero(entidad.getGenero());
-        dto.setSetlist(entidad.getSetlist());
+        dto.setGenero(entidad.getIdGenero());
         dto.setPrecio(entidad.getPrecio());
-        dto.setStock(entidad.getStock());
-        dto.setEstado(entidad.getEstado());
+        dto.setStockInicial(entidad.getStockInicial());
+
+        if (entidad.getTipo() != null) {
+            dto.setTipo(entidad.getTipo().name());
+        }
+
+        if (entidad.getEstado() != null) {
+            dto.setEstado(entidad.getEstado().name());
+        }
+
+        if (entidad.getImgProducto() != null) {
+            dto.setImg(entidad.getImgProducto().getBytes()); 
+        }
+
         return dto;
     }
 
@@ -42,12 +50,26 @@ public class ProductoMapper {
 
         Producto entidad = new Producto();
         entidad.setIdProducto(dto.getIdProducto());
-        entidad.setNombre(dto.getNombre());
-        entidad.setImgProducto(dto.getImgProducto());
-        entidad.setTipo(dto.getTipoProducto());
+        entidad.setTitulo(dto.getTitulo());
         entidad.setPrecio(dto.getPrecio());
-        entidad.setStock(dto.getStock());
+        entidad.setStockInicial(dto.getStockInicial());
+        entidad.setArtista(dto.getArtista());
+        entidad.setIdGenero(dto.getGenero());
+
+        if (dto.getTipo() != null && !dto.getTipo().isEmpty()) {
+            entidad.setTipo(TipoProducto.valueOf(dto.getTipo()));
+        }
+
+        if (dto.getEstado() != null && !dto.getEstado().isEmpty()) {
+            entidad.setEstado(EstadoProducto.valueOf(dto.getEstado()));
+        }
+
+        if (dto.getImg() != null) {
+            Imagen imagen = new Imagen();
+            imagen.setBytes(dto.getImg()); 
+            entidad.setImgProducto(imagen);
+        }
+
         return entidad;
     }
-
 }
