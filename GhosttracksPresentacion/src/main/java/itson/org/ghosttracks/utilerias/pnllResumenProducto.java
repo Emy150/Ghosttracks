@@ -26,7 +26,7 @@ public class pnllResumenProducto extends javax.swing.JPanel {
     public pnllResumenProducto(ProductoDTO producto, int cantidad) {
         initComponents();
         
-        lblNombre.setText(producto.getTitulo());
+        lblNombre.setText(producto.getNombre());
         lblArtista.setText(producto.getArtista());
         lblCantidad.setText("x" + cantidad);
         
@@ -34,10 +34,10 @@ public class pnllResumenProducto extends javax.swing.JPanel {
         lblTotal.setText("$" + String.format("%.2f", subtotalProducto));
         
         try {
-            byte[] nombreArchivo = producto.getImg();
+            String nombreArchivo = producto.getImgProducto();
             String ruta = "/imgCatalogo/" + nombreArchivo;
             
-            if (nombreArchivo != null) {
+            if (nombreArchivo != null && !nombreArchivo.isEmpty()) {
                 URL urlImagenLocal = getClass().getResource(ruta);
                 
                 if (urlImagenLocal != null) {
@@ -50,7 +50,7 @@ public class pnllResumenProducto extends javax.swing.JPanel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error cargando imagen en resumen de: " + producto.getTitulo() + " - " + e.getMessage());
+            System.out.println("Error cargando imagen en resumen de: " + producto.getNombre() + " - " + e.getMessage());
             lblImg.setIcon(null);
             lblImg.setText("Sin img");
             lblImg.setHorizontalAlignment(SwingConstants.CENTER);

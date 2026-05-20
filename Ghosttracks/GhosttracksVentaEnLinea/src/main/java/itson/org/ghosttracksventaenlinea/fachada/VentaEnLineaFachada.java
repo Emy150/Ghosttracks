@@ -1,9 +1,5 @@
 package itson.org.ghosttracksventaenlinea.fachada;
 
-import itson.org.ghosttracks.bos.ClientesBO;
-import itson.org.ghosttracks.bos.PaquetesBO;
-import itson.org.ghosttracks.bos.PedidosBO;
-import itson.org.ghosttracks.bos.ProductosBO;
 import itson.org.ghosttracks.dtos.CarritoDTO;
 import itson.org.ghosttracks.dtos.ClienteDTO;
 import itson.org.ghosttracks.dtos.ItemCarritoDTO;
@@ -11,6 +7,7 @@ import itson.org.ghosttracks.dtos.NuevoPedidoDTO;
 import itson.org.ghosttracks.dtos.PedidoDTO;
 import itson.org.ghosttracks.dtos.ProductoDTO;
 import itson.org.ghosttracks.entidades.Pedido;
+import itson.org.ghosttracks.entidades.Producto;
 import itson.org.ghosttracks.enums.EstadoPedido;
 import itson.org.ghosttracks.enums.EstadoPedidoDTO;
 import itson.org.ghosttracks.negocio.interfaces.IClientesBO;
@@ -19,7 +16,12 @@ import itson.org.ghosttracks.negocio.interfaces.IPedidosBO;
 import itson.org.ghosttracks.negocio.interfaces.IProductosBO;
 import itson.org.ghosttracks.negocio.mappers.ClienteMapper;
 import itson.org.ghosttracks.negocio.mappers.PedidoMapper;
+import itson.org.ghosttracks.negocio.mappers.ProductoMapper;
+import itson.org.ghosttracks.negocio.objetosNegocio.ClientesBO;
 import itson.org.ghosttracks.negocio.objetosNegocio.Excepciones.NegocioException;
+import itson.org.ghosttracks.negocio.objetosNegocio.PaquetesBO;
+import itson.org.ghosttracks.negocio.objetosNegocio.PedidosBO;
+import itson.org.ghosttracks.negocio.objetosNegocio.ProductosBO;
 import itson.org.ghosttracksventaenlinea.excepciones.CodigoErrorVenta;
 import itson.org.ghosttracksventaenlinea.excepciones.VentaEnLineaException;
 import itson.org.ghosttracksventaenlinea.interfaces.IVentaEnLinea;
@@ -32,7 +34,7 @@ import java.util.List;
  */
 public class VentaEnLineaFachada implements IVentaEnLinea {
 
-    private final IPedidosBO pedidosBO;
+private final IPedidosBO pedidosBO;
     private final IProductosBO productosBO;
     private final IClientesBO clientesBO;
     private final IPaquetesBO paquetesBO;
@@ -47,12 +49,12 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     @Override
     public List<ProductoDTO> obtenerCatalogo() throws VentaEnLineaException {
         try {
-            List<ProductoDTO> productosEntidad = productosBO.buscarProductos(""); 
+            List<Producto> productosEntidad = productosBO.obtenerTodos();
             List<ProductoDTO> disponibles = new ArrayList<>();
  
-            for (ProductoDTO p : productosEntidad) {
-                if (p.getStockInicial() != null && p.getStockInicial() > 0) {
-                    disponibles.add(p);
+            for (Producto p : productosEntidad) {
+                if (p.getStock() != null && p.getStock() > 0) {
+                    disponibles.add(ProductoMapper.toDTO(p));
                 }
             }
             return disponibles;
@@ -62,23 +64,19 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     @Override
-    public ProductoDTO consultarDetalleProducto(String id) throws VentaEnLineaException { 
-        if (id == null || id.trim().isEmpty()) {
+    public ProductoDTO consultarDetalleProducto(Long id) throws VentaEnLineaException {
+        if (id == null || id <= 0) {
             throw new VentaEnLineaException(CodigoErrorVenta.DATOS_INVALIDOS, "ID de producto inválido");
         }
         try {
-            List<ProductoDTO> resultado = productosBO.buscarProductos(id);
-            if (resultado.isEmpty()) {
-                throw new VentaEnLineaException(CodigoErrorVenta.PRODUCTO_NO_ENCONTRADO, "No se encontró el producto");
-            }
-            return resultado.get(0);
+            return ProductoMapper.toDTO(productosBO.obtenerProductoPorId(id));
         } catch (NegocioException ex) {
             throw new VentaEnLineaException(CodigoErrorVenta.PRODUCTO_NO_ENCONTRADO, "No se encontró el producto", ex);
         }
     }
  
     @Override
-    public ClienteDTO consultarPerfilCliente(String idCliente) throws VentaEnLineaException {
+    public ClienteDTO consultarPerfilCliente(Long idCliente) throws VentaEnLineaException {
         try {
             return ClienteMapper.toDTO(clientesBO.obtenerClientePorId(idCliente));
         } catch (NegocioException ex) {
@@ -96,7 +94,7 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     @Override
-    public String obtenerNombreCliente(String idCliente) throws VentaEnLineaException { 
+    public String obtenerNombreCliente(Long idCliente) throws VentaEnLineaException {
         try {
             return ClienteMapper.nombreCompleto(clientesBO.obtenerClientePorId(idCliente));
         } catch (NegocioException ex) {
@@ -115,8 +113,8 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
         if (cantidad == null || cantidad <= 0 || cantidad > 100) {
             throw new VentaEnLineaException(CodigoErrorVenta.DATOS_INVALIDOS, "Cantidad inválida.");
         }
-        if (producto.getStockInicial() == null || cantidad > producto.getStockInicial()) {
-            throw new VentaEnLineaException(CodigoErrorVenta.STOCK_INSUFICIENTE, "Stock insuficiente para: " + producto.getTitulo());
+        if (producto.getStock() == null || cantidad > producto.getStock()) {
+            throw new VentaEnLineaException(CodigoErrorVenta.STOCK_INSUFICIENTE, "Stock insuficiente para: " + producto.getNombre());
         }
  
         boolean existe = false;
@@ -142,7 +140,7 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     @Override
-    public CarritoDTO eliminarDelCarrito(CarritoDTO carrito, String idProducto) throws VentaEnLineaException { 
+    public CarritoDTO eliminarDelCarrito(CarritoDTO carrito, Long idProducto) throws VentaEnLineaException {
         if (carrito == null || carrito.getProductos().isEmpty()) {
             throw new VentaEnLineaException(CodigoErrorVenta.CARRITO_VACIO, "No hay productos para eliminar.");
         }
@@ -164,8 +162,8 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     @Override
-    public PedidoDTO actualizarEstadoPedido(String idPedido, EstadoPedidoDTO nuevoEstadoDTO) throws VentaEnLineaException { 
-        if (idPedido == null || idPedido.trim().isEmpty() || nuevoEstadoDTO == null) {
+    public PedidoDTO actualizarEstadoPedido(Long idPedido, EstadoPedidoDTO nuevoEstadoDTO) throws VentaEnLineaException {
+        if (idPedido == null || idPedido <= 0 || nuevoEstadoDTO == null) {
             throw new VentaEnLineaException(CodigoErrorVenta.DATOS_INVALIDOS, "Datos de actualización inválidos.");
         }
         try {
@@ -178,8 +176,8 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     @Override
-    public PedidoDTO obtenerPedidoPorID(String idPedido) throws VentaEnLineaException { 
-        if (idPedido == null || idPedido.trim().isEmpty()) {
+    public PedidoDTO obtenerPedidoPorID(Long idPedido) throws VentaEnLineaException {
+        if (idPedido == null || idPedido <= 0) {
             throw new VentaEnLineaException(CodigoErrorVenta.DATOS_INVALIDOS, "ID de pedido inválido.");
         }
         try {
@@ -204,8 +202,8 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     @Override
-    public PedidoDTO despacharPedidoCliente(String idPedido, Double peso, Double largo, Double ancho, Double alto) throws VentaEnLineaException { 
-        if (idPedido == null || idPedido.trim().isEmpty()) {
+    public PedidoDTO despacharPedidoCliente(Long idPedido, Double peso, Double largo, Double ancho, Double alto) throws VentaEnLineaException {
+        if (idPedido == null || idPedido <= 0) {
             throw new VentaEnLineaException(CodigoErrorVenta.DATOS_INVALIDOS, "ID de pedido inválido para despacho.");
         }
         try {
@@ -218,7 +216,7 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     @Override
     public List<PedidoDTO> consultarPedidosFiltrados(String nombreCliente, EstadoPedidoDTO estadoDTO) throws VentaEnLineaException {
         try {
-            List<String> idsClientes = null; 
+            List<Long> idsClientes = null;
             if (nombreCliente != null && !nombreCliente.trim().isEmpty()) {
                 idsClientes = clientesBO.buscarIdsPorNombre(nombreCliente);
                 if (idsClientes.isEmpty()) {
@@ -240,6 +238,7 @@ public class VentaEnLineaFachada implements IVentaEnLinea {
     }
  
     //Método auxiliar
+ 
     private void recalcularTotalesCarrito(CarritoDTO carrito) {
         double subtotal = 0.0;
         for (ItemCarritoDTO item : carrito.getProductos()) {

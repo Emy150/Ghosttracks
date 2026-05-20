@@ -21,11 +21,9 @@ public class PanelHeader extends javax.swing.JPanel {
 
     private void cargarDatosSesion() {
         if (SesionUsuario.getInstancia().haySesionActiva()) {
-            
+            // Obtenemos al cliente logueado
             ClienteDTO cliente = SesionUsuario.getInstancia().getCliente();
-            
-            String nombreMostrado = cliente.getNombre() + " " + cliente.getApellidoPaterno();
-            
+            String nombreMostrado = cliente.getNombres() + " " + cliente.getApellidoPaterno();
             lblNombre.setText(nombreMostrado);
         } else {
             lblNombre.setText("Invitado"); 

@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
  */
 public class SkydropxPaquete {
     private String numeroGuia;
-    private String idReferenciaExterna; 
+    private Long idReferenciaExterna; 
     private String estado;
     private LocalDateTime fechaEnvio;
     private LocalDateTime fechaEntregaEstimada;
@@ -18,7 +18,7 @@ public class SkydropxPaquete {
         
     }    
     
-    public SkydropxPaquete(String numeroGuia, String idReferenciaExterna, String estado, LocalDateTime fechaEnvio, LocalDateTime fechaEntrega, Double costoEnvio) {
+    public SkydropxPaquete(String numeroGuia, Long idReferenciaExterna, String estado, LocalDateTime fechaEnvio, LocalDateTime fechaEntrega, Double costoEnvio) {
         this.numeroGuia = numeroGuia;
         this.idReferenciaExterna = idReferenciaExterna;
         this.estado = estado;
@@ -35,11 +35,11 @@ public class SkydropxPaquete {
         this.numeroGuia = numeroGuia;
     }
 
-    public String getIdReferenciaExterna() {
+    public Long getIdReferenciaExterna() {
         return idReferenciaExterna;
     }
 
-    public void setIdReferenciaExterna(String idReferenciaExterna) {
+    public void setIdReferenciaExterna(Long idReferenciaExterna) {
         this.idReferenciaExterna = idReferenciaExterna;
     }
 

@@ -1,6 +1,5 @@
-package itson.org.ghosttracks.entidades;
 
-import org.bson.codecs.pojo.annotations.BsonProperty;
+package itson.org.ghosttracks.entidades;
 
 /**
  *
@@ -8,34 +7,30 @@ import org.bson.codecs.pojo.annotations.BsonProperty;
  */
 public class ItemCarrito {
     
-    @BsonProperty("idProducto")
-    private String idProducto;
-    
+    private Producto producto;
     private Integer cantidad;
     private Double subtotal = 0.0;
     
     public ItemCarrito() {
     }
 
-    public ItemCarrito(String idProducto, Integer cantidad, Double precioProducto) {
-        this.idProducto = idProducto;
+    public ItemCarrito(Producto producto, Integer cantidad) {
+        this.producto = producto;
         this.cantidad = cantidad;
-        this.calcularSubtotal(precioProducto);
     }
 
-    public void calcularSubtotal(Double precioProducto) {
-        if (precioProducto != null && this.cantidad != null) {
-            this.subtotal = precioProducto * this.cantidad;
+    public void calcularSubtotal() {
+        if (this.producto != null && this.producto.getPrecio() != null && this.cantidad != null) {
+            this.subtotal = this.producto.getPrecio() * this.cantidad;
         }
     }
 
-
-    public String getIdProducto() {
-        return idProducto;
+    public Producto getProducto() {
+        return producto;
     }
 
-    public void setIdProducto(String idProducto) {
-        this.idProducto = idProducto;
+    public void setProducto(Producto producto) {
+        this.producto = producto;
     }
 
     public Integer getCantidad() {
@@ -53,4 +48,5 @@ public class ItemCarrito {
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
+    
 }

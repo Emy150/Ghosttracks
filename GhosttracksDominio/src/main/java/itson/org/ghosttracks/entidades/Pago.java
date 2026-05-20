@@ -1,3 +1,4 @@
+
 package itson.org.ghosttracks.entidades;
 
 import itson.org.ghosttracks.enums.TipoPago;
@@ -12,10 +13,6 @@ public class Pago {
     private TipoPago tipo;
     private Double monto;
     private LocalDateTime fechaPago;
-    
-    public Pago(){
-        
-    }
     
     public Pago(TipoPago tipo, Double monto, LocalDateTime fechaPago) {
         this.tipo = tipo;
@@ -46,5 +43,7 @@ public class Pago {
     public void setFechaPago(LocalDateTime fechaPago) {
         this.fechaPago = fechaPago;
     }
+    
+    
     
 }

@@ -3,6 +3,7 @@ package itson.org.ghosttracks.controladores;
 import itson.org.ghosttracks.dtos.ItemCarritoDTO;
 import itson.org.ghosttracks.enums.EstadoPedidoDTO;
 import itson.org.ghosttracks.dtos.PedidoDTO;
+import itson.org.ghosttracks.dtos.PaqueteDTO;
 import itson.org.ghosttracks.presentacion.administrador.PantallaVentas;
 import itson.org.ghosttracksventaenlinea.excepciones.VentaEnLineaException;
 import itson.org.ghosttracksventaenlinea.fachada.VentaEnLineaFachada;
@@ -11,13 +12,14 @@ import java.util.List;
 import java.util.logging.Logger;
 
 /**
- * Controlador de administración para la gestión de ventas, empaques y envíos.
- * @author oliro, emyla
+ *
+ * @author oliro
  */
 public class ControladorVentasAdmin {
 
     private static final Logger LOGGER = Logger.getLogger(ControladorVentasAdmin.class.getName());
 
+    
     private final Navegador navegador;
     private final IVentaEnLinea ventaFachada = new VentaEnLineaFachada();
     private PedidoDTO pedidoSeleccionado;
@@ -30,12 +32,13 @@ public class ControladorVentasAdmin {
         try {
             List<PedidoDTO> pedidos = ventaFachada.obtenerTodosLosPedidos();
             vista.llenarTabla(pedidos);
+
         } catch (VentaEnLineaException ex) {
             navegador.mostrarMensaje("Error al cargar los pedidos: " + ex.getMessage(), true);
         }
     }
 
-    public void seleccionarPedido(String idPedido, PantallaVentas vista) {
+    public void seleccionarPedido(Long idPedido, PantallaVentas vista) {
         try {
             this.pedidoSeleccionado = ventaFachada.obtenerPedidoPorID(idPedido);
 
@@ -57,10 +60,12 @@ public class ControladorVentasAdmin {
 
         switch (estado) {
             case PAGADO:
+                // Si está pagado, lo mandamos a la pantalla de confirmar empaque
                 navegador.irPantallaConfirmarEmpaque(this.pedidoSeleccionado);
                 break;
                 
             case EN_PREPARACION:
+                // Si ya se está preparando, lo mandamos a la pantalla de ingresar guía y sus datos emy
                 navegador.irPantallaConfirmarEnvio(this.pedidoSeleccionado);
                 break;
                 
@@ -88,14 +93,15 @@ public class ControladorVentasAdmin {
     }
 
     public void actualizarEstadoPedido(PedidoDTO pedido, EstadoPedidoDTO estado) {
-        try {
+        try{
            ventaFachada.actualizarEstadoPedido(pedido.getIdPedido(), estado); 
-        } catch (VentaEnLineaException ex) {
-            navegador.mostrarMensaje("Error en el sistema. No fue posible actualizar el pedido: " + ex.getMessage(), true);
+        } catch(VentaEnLineaException ex){
+            navegador.mostrarMensaje("Error en el sistema. No fué posible actualizar el pedido: "+ex, true);
         }
+        
     }
     
-    public String obtenerNombreClienteCompleto(String idCliente) {
+    public String obtenerNombreClienteCompleto(Long idCliente) {
         try {
             return ventaFachada.obtenerNombreCliente(idCliente); 
         } catch (VentaEnLineaException ex) {
@@ -114,6 +120,7 @@ public class ControladorVentasAdmin {
     }
     
     public void despacharPedidoConSkydropx(PedidoDTO pedido) {
+                
         double[] medidas = calcularDimensionesPaquete(pedido);
         double pesoTotal = medidas[0];
         double largo = medidas[1];
@@ -142,6 +149,7 @@ public class ControladorVentasAdmin {
         }
     }
     
+    
     // Método privado para calcular las dimensiones del paquete
     private double[] calcularDimensionesPaquete(PedidoDTO pedido) {
         double pesoTotal = 0.1; 
@@ -154,22 +162,19 @@ public class ControladorVentasAdmin {
 
         if (pedido != null && pedido.getCarrito() != null && pedido.getCarrito().getProductos() != null) {
             for (ItemCarritoDTO item : pedido.getCarrito().getProductos()) {
-                if (item.getProductoSeleccionado() != null) {
-                    cantidadArticulos += item.getCantidad();
-                    
-                    String tipo = "";
-                    if (item.getProductoSeleccionado().getTipo() != null) {
-                        tipo = item.getProductoSeleccionado().getTipo().toUpperCase();
-                    }
+                cantidadArticulos += item.getCantidad();
+                String tipo = "";
+                if (item.getProductoSeleccionado().getTipoProducto() != null) {
+                    tipo = item.getProductoSeleccionado().getTipoProducto().toString().toUpperCase();
+                }
 
-                    if (tipo.contains("VINILO") || tipo.contains("VINYL")) {
-                        contieneVinilo = true;
-                        pesoTotal += (0.5 * item.getCantidad()); 
-                    } else if (tipo.contains("CD")) {
-                        pesoTotal += (0.15 * item.getCantidad()); 
-                    } else {
-                        pesoTotal += (0.3 * item.getCantidad());
-                    }
+                if (tipo.contains("VINILO") || tipo.contains("VINYL")) {
+                    contieneVinilo = true;
+                    pesoTotal += (0.5 * item.getCantidad()); 
+                } else if (tipo.contains("CD")) {
+                    pesoTotal += (0.15 * item.getCantidad()); 
+                } else {
+                    pesoTotal += (0.3 * item.getCantidad());
                 }
             }
         }
@@ -183,9 +188,5 @@ public class ControladorVentasAdmin {
         }
 
         return new double[]{pesoTotal, largo, ancho, alto};
-    }
-    
-    public void mostrarMensaje(String mensaje, boolean esError) {
-        this.navegador.mostrarMensaje(mensaje, esError);
     }
 }

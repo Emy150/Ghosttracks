@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package itson.org.ghosttracks.negocio.mappers;
 
 import itson.org.ghosttracks.dtos.ClienteDTO;
@@ -18,11 +22,11 @@ public class ClienteMapper {
  
         ClienteDTO dto = new ClienteDTO();
         dto.setIdUsuario(entidad.getIdUsuario());
-        dto.setNombre(entidad.getNombre());
+        dto.setNombres(entidad.getNombres());
         dto.setApellidoPaterno(entidad.getApellidoPaterno());
         dto.setApellidoMaterno(entidad.getApellidoMaterno());
         dto.setCorreo(entidad.getCorreo());
-        dto.setContrasenia(entidad.getContrasenia());
+        dto.setContraseña(entidad.getContraseña());
         dto.setTelefono(entidad.getTelefono());
         dto.setDireccion(toDireccionDTO(entidad.getDireccion()));
         return dto;
@@ -33,24 +37,24 @@ public class ClienteMapper {
  
         Cliente entidad = new Cliente();
         entidad.setIdUsuario(dto.getIdUsuario());
-        entidad.setNombre(dto.getNombre());
+        entidad.setNombres(dto.getNombres());
         entidad.setApellidoPaterno(dto.getApellidoPaterno());
         entidad.setApellidoMaterno(dto.getApellidoMaterno());
         entidad.setCorreo(dto.getCorreo());
-        entidad.setContrasenia(dto.getContrasenia());
+        entidad.setContraseña(dto.getContraseña());
         entidad.setTelefono(dto.getTelefono());
-        entidad.setDireccion(toDireccionEntidad(dto.getDireccion())); 
         return entidad;
     }
  
     public static String nombreCompleto(Cliente entidad) {
         if (entidad == null) return "";
-        return (entidad.getNombre() + " "
+        return (entidad.getNombres() + " "
                 + entidad.getApellidoPaterno() + " "
                 + entidad.getApellidoMaterno()).trim();
     }
     
-    private static DireccionClienteDTO toDireccionDTO(Direccion dir) {
+    //Método auxiliar
+      private static DireccionClienteDTO toDireccionDTO(Direccion dir) {
         if (dir == null) return null;
  
         DireccionClienteDTO dto = new DireccionClienteDTO();
@@ -58,15 +62,5 @@ public class ClienteMapper {
         dto.setNumero(dir.getNumero());
         dto.setCodigoPostal(dir.getCodigoPostal());
         return dto;
-    }
-
-    private static Direccion toDireccionEntidad(DireccionClienteDTO dto) {
-        if (dto == null) return null;
-
-        Direccion dir = new Direccion();
-        dir.setCalle(dto.getCalle());
-        dir.setNumero(dto.getNumero());
-        dir.setCodigoPostal(dto.getCodigoPostal());
-        return dir;
     }
 }

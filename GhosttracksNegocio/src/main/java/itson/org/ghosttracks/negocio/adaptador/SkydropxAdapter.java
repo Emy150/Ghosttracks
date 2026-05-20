@@ -23,7 +23,7 @@ public class SkydropxAdapter implements IProveedorEnvios {
     }
 
     @Override
-    public PaqueteDTO generarGuiaPaquete(String idPedido, Double pesoKg) throws NegocioException {
+    public PaqueteDTO generarGuiaPaquete(Long idPedido, Double pesoKg) throws NegocioException {
         try {
             LOGGER.log(Level.INFO, "Solicitando guía a Skydropx para el pedido: {0}", idPedido);
             

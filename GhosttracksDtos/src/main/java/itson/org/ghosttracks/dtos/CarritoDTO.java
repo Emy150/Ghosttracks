@@ -15,25 +15,21 @@ public class CarritoDTO {
     private Double total;
     
     public CarritoDTO() {
-        this.productos = new ArrayList<>();
     }
 
     public CarritoDTO(List<ItemCarritoDTO> productos, Double subtotal, Double impuestos, Double total) {
-        this.productos = (productos != null) ? productos : new ArrayList<>();
+        this.productos = productos;
         this.subtotal = subtotal;
         this.impuestos = impuestos;
         this.total = total;
     }
 
     public List<ItemCarritoDTO> getProductos() {
-        if (productos == null) {
-            productos = new ArrayList<>();
-        }
         return productos;
     }
 
     public void setProductos(List<ItemCarritoDTO> productos) {
-        this.productos = (productos != null) ? productos : new ArrayList<>();
+        this.productos = productos;
     }
 
     public Double getSubtotal() {
@@ -59,4 +55,5 @@ public class CarritoDTO {
     public void setTotal(Double total) {
         this.total = total;
     }
+    
 }

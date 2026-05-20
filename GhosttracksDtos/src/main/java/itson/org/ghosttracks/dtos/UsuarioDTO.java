@@ -6,46 +6,46 @@ package itson.org.ghosttracks.dtos;
  */
 public class UsuarioDTO {
     
-    private String idUsuario; 
-    private String nombre; 
+    private Long idUsuario;
+    private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo;
-    private String contrasenia; 
+    private String contraseña;
 
     public UsuarioDTO() {
     }
 
     public UsuarioDTO(
-            String idUsuario, 
-            String nombre, 
+            Long idUsuario, 
+            String nombres, 
             String apellidoPaterno, 
             String apellidoMaterno, 
             String correo, 
-            String contrasenia
+            String contraseña
     ) {
         this.idUsuario = idUsuario;
-        this.nombre = nombre;
+        this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.correo = correo;
-        this.contrasenia = contrasenia;
+        this.contraseña = contraseña;
     }
 
-    public String getIdUsuario() {
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
     public String getApellidoPaterno() {
@@ -72,11 +72,14 @@ public class UsuarioDTO {
         this.correo = correo;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
+    
+    
+    
 }

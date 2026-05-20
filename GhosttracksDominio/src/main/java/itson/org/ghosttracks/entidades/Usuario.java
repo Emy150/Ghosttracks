@@ -1,57 +1,56 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package itson.org.ghosttracks.entidades;
-
-import java.util.Objects;
-import org.bson.BsonType;
-import org.bson.codecs.pojo.annotations.BsonDiscriminator;
-import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.codecs.pojo.annotations.BsonProperty;
-import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
  *
- * @author emyla
+ * @author nafbr
  */
-@BsonDiscriminator(key = "tipoUsuario")
 public class Usuario {
-    
-    @BsonId
-    @BsonProperty("_id")
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idUsuario;
-    
-    private String nombre;
+    private Long idUsuario;
+    private String nombres;
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo;
-    private String contrasenia;
-    
+    private String contraseña;
+
     public Usuario() {
-    
     }
-    
-    public Usuario(String idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia) {
+
+    public Usuario(Long idUsuario, String nombres, String apellidoPaterno, String apellidoMaterno, String correo, String contraseña) {
         this.idUsuario = idUsuario;
-        this.nombre = nombre;
+        this.nombres = nombres;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.correo = correo;
-        this.contrasenia = contrasenia;
+        this.contraseña = contraseña;
     }
 
-    public String getIdUsuario() {
+    public Usuario(String nombres, String apellidoPaterno, String apellidoMaterno, String correo, String contraseña) {
+        this.nombres = nombres;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
+        this.correo = correo;
+        this.contraseña = contraseña;
+    }
+
+    
+    public Long getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(String idUsuario) {
+    public void setIdUsuario(Long idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getNombres() {
+        return nombres;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
     }
 
     public String getApellidoPaterno() {
@@ -78,40 +77,12 @@ public class Usuario {
         this.correo = correo;
     }
 
-    public String getContrasenia() {
-        return contrasenia;
+    public String getContraseña() {
+        return contraseña;
     }
 
-    public void setContrasenia(String contrasenia) {
-        this.contrasenia = contrasenia;
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 67 * hash + Objects.hashCode(this.idUsuario);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Usuario other = (Usuario) obj;
-        return Objects.equals(this.idUsuario, other.idUsuario);
-    }
-
-    @Override
-    public String toString() {
-        return "Usuario{" + "idUsuario=" + idUsuario + ", nombre=" + nombre + ", apellidoPaterno=" + apellidoPaterno + ", apellidoMaterno=" + apellidoMaterno + ", correo=" + correo + ", contrasenia=" + contrasenia + '}';
-    }
-        
     
 }

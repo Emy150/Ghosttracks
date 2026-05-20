@@ -2,90 +2,85 @@ package itson.org.ghosttracks.entidades;
 
 import itson.org.ghosttracks.enums.EstadoProducto;
 import itson.org.ghosttracks.enums.TipoProducto;
-import java.time.LocalDateTime;
-import java.util.Objects;
-import org.bson.BsonType;
-import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.codecs.pojo.annotations.BsonRepresentation;
+import java.util.List;
 
 /**
  * Entidad de Dominio
  * @author Emy
  */
- public class Producto {
-
-    @BsonId
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idProducto;
     
-    private String sku;
+public class Producto {
+    private Long idProducto; 
     
-    private String titulo;
+    private String nombre;
+    private String imgProducto;
+    private TipoProducto tipoProducto;
     private String artista;
-    private TipoProducto tipo;
-    
-    // Referencia a Generos
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idGenero; 
-    
+    private String genero;
+    private List<String> setlist;
     private Double precio;
-    private Integer stockInicial;
+    private Integer stock;
     private EstadoProducto estado;
-    private Imagen imgProducto;
-    private LocalDateTime fechaRegistro;
 
     public Producto() {
         
     }
 
-    public Producto(
-            String idProducto, 
-            String sku,
-            String titulo, 
-            String artista, 
-            TipoProducto tipo, 
-            String idGenero, 
-            Double precio, 
-            Integer stockInicial, 
-            EstadoProducto estado, 
-            Imagen imgProducto, 
-            LocalDateTime fechaRegistro
-    ){
-        this.idProducto = idProducto;
-        this.sku = sku;
-        this.titulo = titulo;
-        this.artista = artista;
-        this.tipo = tipo;
-        this.idGenero = idGenero;
-        this.precio = precio;
-        this.stockInicial = stockInicial;
-        this.estado = estado;
+    public Producto(String nombre, String imgProducto, TipoProducto tipoProducto, String artista, String genero, List<String> setlist, Double precio, Integer stock, EstadoProducto estado) {
+        this.nombre = nombre;
         this.imgProducto = imgProducto;
-        this.fechaRegistro = fechaRegistro;
+        this.tipoProducto = tipoProducto;
+        this.artista = artista;
+        this.genero = genero;
+        this.setlist = setlist;
+        this.precio = precio;
+        this.stock = stock;
+        this.estado = estado;
     }
 
-    public String getIdProducto() {
+    public Producto(Long idProducto, String nombre, String imgProducto, TipoProducto tipoProducto, String artista, String genero, List<String> setlist, Double precio, Integer stock, EstadoProducto estado) {
+        this.idProducto = idProducto;
+        this.nombre = nombre;
+        this.imgProducto = imgProducto;
+        this.tipoProducto = tipoProducto;
+        this.artista = artista;
+        this.genero = genero;
+        this.setlist = setlist;
+        this.precio = precio;
+        this.stock = stock;
+        this.estado = estado;
+    }
+
+    public Long getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(String idProducto) {
+    public void setIdProducto(Long idProducto) {
         this.idProducto = idProducto;
     }
 
-    public String getSku() {
-        return sku;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setSku(String sku) {
-        this.sku = sku;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getImgProducto() {
+        return imgProducto;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setImgProducto(String imgProducto) {
+        this.imgProducto = imgProducto;
+    }
+
+    public TipoProducto getTipo() {
+        return tipoProducto;
+    }
+
+    public void setTipo(TipoProducto tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
 
     public String getArtista() {
@@ -96,20 +91,20 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
         this.artista = artista;
     }
 
-    public TipoProducto getTipo() {
-        return tipo;
+    public String getGenero() {
+        return genero;
     }
 
-    public void setTipo(TipoProducto tipo) {
-        this.tipo = tipo;
+    public void setGenero(String genero) {
+        this.genero = genero;
     }
 
-    public String getIdGenero() {
-        return idGenero;
+    public List<String> getSetlist() {
+        return setlist;
     }
 
-    public void setIdGenero(String idGenero) {
-        this.idGenero = idGenero;
+    public void setSetlist(List<String> setlist) {
+        this.setlist = setlist;
     }
 
     public Double getPrecio() {
@@ -120,12 +115,12 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
         this.precio = precio;
     }
 
-    public Integer getStockInicial() {
-        return stockInicial;
+    public Integer getStock() {
+        return stock;
     }
 
-    public void setStockInicial(Integer stockInicial) {
-        this.stockInicial = stockInicial;
+    public void setStock(Integer stock) {
+        this.stock = stock;
     }
 
     public EstadoProducto getEstado() {
@@ -136,46 +131,4 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
         this.estado = estado;
     }
 
-    public Imagen getImgProducto() {
-        return imgProducto;
-    }
-
-    public void setImgProducto(Imagen imgProducto) {
-        this.imgProducto = imgProducto;
-    }
-
-    public LocalDateTime getFechaRegistro() {
-        return fechaRegistro;
-    }
-
-    public void setFechaRegistro(LocalDateTime fechaRegistro) {
-        this.fechaRegistro = fechaRegistro;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 31 * hash + Objects.hashCode(this.idProducto);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Producto other = (Producto) obj;
-        return Objects.equals(this.idProducto, other.idProducto);
-    }
-
-    @Override
-    public String toString() {
-        return "Producto{" + "idProducto=" + idProducto + ", sku=" + sku + ", titulo=" + titulo + ", artista=" + artista + ", tipo=" + tipo + ", idGenero=" + idGenero + ", precio=" + precio + ", stockInicial=" + stockInicial + ", estado=" + estado + ", imgProducto=" + imgProducto + ", fechaRegistro=" + fechaRegistro + '}';
-    }
 }

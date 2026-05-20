@@ -1,3 +1,4 @@
+
 package itson.org.ghosttracks.presentacion.administrador;
 
 import itson.org.ghosttracks.controladores.ControladorVentasAdmin;
@@ -146,7 +147,7 @@ public class PantallaVentas extends javax.swing.JPanel {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 800, Short.MAX_VALUE)
+            .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 704, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
@@ -190,14 +191,8 @@ public class PantallaVentas extends javax.swing.JPanel {
         for (PedidoDTO pedido : pedidos) {
             Object[] fila = new Object[5]; 
 
-            fila[0] = pedido.getFolio();
-            
-            if (pedido.getCliente() != null) {
-                fila[1] = control.obtenerNombreClienteCompleto(pedido.getCliente().getIdUsuario());
-            } else {
-                fila[1] = "Cliente Desconocido";
-            }
-            
+            fila[0] = pedido.getIdPedido(); 
+            fila[1] = pedido.getCliente().getNombres()+" "+pedido.getCliente().getApellidoPaterno();
             int totalPiezas = 0;
             if (pedido.getCarrito() != null && pedido.getCarrito().getProductos() != null) {
                 for (ItemCarritoDTO item : pedido.getCarrito().getProductos()) {
@@ -205,7 +200,7 @@ public class PantallaVentas extends javax.swing.JPanel {
                 }
             }
             fila[2] = totalPiezas;
-            fila[3] = (pedido.getCarrito() != null) ? String.format("$%.2f", pedido.getCarrito().getTotal()) : "$0.00";
+            fila[3] = String.format("$%.2f", pedido.getCarrito().getTotal());
             fila[4] = pedido.getEstado() != null ? pedido.getEstado().name() : "Sin estado";
 
             modelo.addRow(fila);
@@ -214,8 +209,8 @@ public class PantallaVentas extends javax.swing.JPanel {
     
     private void configurarEventosTabla() {
         tblPedidos.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting() && tblPedidos.getSelectedRow() >= 0) {
-                String idPedido = tblPedidos.getValueAt(tblPedidos.getSelectedRow(), 0).toString();
+            if (!e.getValueIsAdjusting() && tblPedidos.getSelectedRow() != -1) {
+                Long idPedido = (Long) tblPedidos.getValueAt(tblPedidos.getSelectedRow(), 0);
                 control.seleccionarPedido(idPedido, this);
             }
         });

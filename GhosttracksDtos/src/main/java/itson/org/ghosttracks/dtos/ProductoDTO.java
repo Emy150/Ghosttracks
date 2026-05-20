@@ -1,51 +1,83 @@
 package itson.org.ghosttracks.dtos;
 
+import itson.org.ghosttracks.enums.EstadoProducto;
+import itson.org.ghosttracks.enums.TipoProducto;
+import java.util.List;
+
 /**
  *
- * @author emyla
+ * @author Emy
  */
 public class ProductoDTO {
-
-    private String idProducto;
-    private String titulo;
+    
+    private Long idProducto;
+    private String nombre;
+    private String imgProducto;
+    private TipoProducto tipoProducto;
     private String artista;
-    private Double precio;
-    private Integer stockInicial;
-    private String tipo;
     private String genero;
-    private String estado;
-    private byte[] img;
+    private List<String> setlist;
+    private Double precio;
+    private Integer stock;
+    private EstadoProducto estado;
 
     public ProductoDTO() {
-        
     }
 
-    public ProductoDTO(String idProducto, String titulo, String artista, Double precio, Integer stockInicial, String tipo, String genero, String estado, byte[] img) {
+    public ProductoDTO(
+            Long idProducto, 
+            String nombre, 
+            String imgProducto, 
+            TipoProducto tipoProducto, 
+            String artista, 
+            String genero, 
+            List<String> setList,
+            Double precio, 
+            Integer stock, 
+            EstadoProducto estado
+    ) {
         this.idProducto = idProducto;
-        this.titulo = titulo;
+        this.nombre = nombre;
+        this.imgProducto = imgProducto;
+        this.tipoProducto = tipoProducto;
         this.artista = artista;
-        this.precio = precio;
-        this.stockInicial = stockInicial;
-        this.tipo = tipo;
         this.genero = genero;
+        this.setlist = setlist;
+        this.precio = precio;
+        this.stock = stock;
         this.estado = estado;
-        this.img = img;
     }
 
-    public String getIdProducto() {
+    public Long getIdProducto() {
         return idProducto;
     }
 
-    public void setIdProducto(String idProducto) {
+    public void setIdProducto(Long idProducto) {
         this.idProducto = idProducto;
     }
 
-    public String getTitulo() {
-        return titulo;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setTitulo(String titulo) {
-        this.titulo = titulo;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public String getImgProducto() {
+        return imgProducto;
+    }
+
+    public void setImgProducto(String imgProducto) {
+        this.imgProducto = imgProducto;
+    }
+
+    public TipoProducto getTipoProducto() {
+        return tipoProducto;
+    }
+
+    public void setTipoProducto(TipoProducto tipoProducto) {
+        this.tipoProducto = tipoProducto;
     }
 
     public String getArtista() {
@@ -56,30 +88,6 @@ public class ProductoDTO {
         this.artista = artista;
     }
 
-    public Double getPrecio() {
-        return precio;
-    }
-
-    public void setPrecio(Double precio) {
-        this.precio = precio;
-    }
-
-    public Integer getStockInicial() {
-        return stockInicial;
-    }
-
-    public void setStockInicial(Integer stockInicial) {
-        this.stockInicial = stockInicial;
-    }
-
-    public String getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
-    }
-
     public String getGenero() {
         return genero;
     }
@@ -88,20 +96,36 @@ public class ProductoDTO {
         this.genero = genero;
     }
 
-    public String getEstado() {
+    public List<String> getSetlist() {
+        return setlist;
+    }
+
+    public void setSetlist(List<String> setlist) {
+        this.setlist = setlist;
+    }
+
+    public Double getPrecio() {
+        return precio;
+    }
+
+    public void setPrecio(Double precio) {
+        this.precio = precio;
+    }
+
+    public Integer getStock() {
+        return stock;
+    }
+
+    public void setStock(Integer stock) {
+        this.stock = stock;
+    }
+
+    public EstadoProducto getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(EstadoProducto estado) {
         this.estado = estado;
     }
-    
-    public byte[] getImg() {
-        return img;
-    }
-
-    public void setImg(byte[] img) {
-        this.img = img;
-    }
-    
+  
 }

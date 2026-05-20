@@ -2,29 +2,16 @@ package itson.org.ghosttracks.entidades;
 
 import itson.org.ghosttracks.enums.EstadoPedido;
 import java.time.LocalDateTime;
-import java.util.Objects;
-import org.bson.BsonType;
-import org.bson.codecs.pojo.annotations.BsonId;
-import org.bson.codecs.pojo.annotations.BsonProperty;
-import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
+ *
  * @author nafbr
  */
 public class Pedido {
     
-    @BsonId
-    @BsonProperty("_id")
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idPedido;
-    
+    private Long idPedido;
     private String folio;
-
-    // Referencia a cliente
-    @BsonProperty("idCliente")
-    @BsonRepresentation(BsonType.OBJECT_ID)
-    private String idCliente; 
-    
+    private Cliente cliente;
     private Carrito carrito;
     private Contacto contacto; 
     private Direccion direccionEntrega; 
@@ -36,29 +23,13 @@ public class Pedido {
     private Pago pago; 
 
     public Pedido() {
-        
     }
 
-    public Pedido(String idPedido, String folio, String idCliente, Carrito carrito, Contacto contacto, Direccion direccionEntrega, Sucursal sucursal, EstadoPedido estado, LocalDateTime fechaPedido, Double costoEnvio, Paquete paquete, Pago pago) {
-        this.idPedido = idPedido;
-        this.folio = folio;
-        this.idCliente = idCliente;
-        this.carrito = carrito;
-        this.contacto = contacto;
-        this.direccionEntrega = direccionEntrega;
-        this.sucursal = sucursal;
-        this.estado = estado;
-        this.fechaPedido = fechaPedido;
-        this.costoEnvio = costoEnvio;
-        this.paquete = paquete;
-        this.pago = pago;
-    }
-
-    public String getIdPedido() {
+    public Long getIdPedido() {
         return idPedido;
     }
 
-    public void setIdPedido(String idPedido) {
+    public void setIdPedido(Long idPedido) {
         this.idPedido = idPedido;
     }
 
@@ -70,12 +41,12 @@ public class Pedido {
         this.folio = folio;
     }
 
-    public String getIdCliente() {
-        return idCliente;
+    public Cliente getCliente() {
+        return cliente;
     }
 
-    public void setIdCliente(String idCliente) {
-        this.idCliente = idCliente;
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Carrito getCarrito() {
@@ -149,42 +120,5 @@ public class Pedido {
     public void setPago(Pago pago) {
         this.pago = pago;
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 59 * hash + Objects.hashCode(this.idPedido);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Pedido other = (Pedido) obj;
-        return Objects.equals(this.idPedido, other.idPedido);
-    }
-
-    @Override
-    public String toString() {
-        return "Pedido{" + "idPedido=" + idPedido + 
-                ", folio=" + folio + 
-                ", idCliente=" + idCliente + // Actualizado aquí también
-                ", carrito=" + carrito + 
-                ", contacto=" + contacto + 
-                ", direccionEntrega=" + direccionEntrega + 
-                ", sucursal=" + sucursal + 
-                ", estado=" + estado + 
-                ", fechaPedido=" + fechaPedido + 
-                ", costoEnvio=" + costoEnvio + 
-                ", paquete=" + paquete + 
-                ", pago=" + pago + '}';
-    } 
+    
 }

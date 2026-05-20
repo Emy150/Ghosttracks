@@ -207,7 +207,7 @@ public class PantallaCarrito extends javax.swing.JPanel {
 
             javax.swing.ImageIcon icono = null;
             try {
-                String ruta = "/imgCatalogo/" + item.getProductoSeleccionado().getImg();
+                String ruta = "/imgCatalogo/" + item.getProductoSeleccionado().getImgProducto();
                 java.net.URL url = getClass().getResource(ruta);
                 
                 if (url != null) {
@@ -223,7 +223,7 @@ public class PantallaCarrito extends javax.swing.JPanel {
 
             fila[0] = icono; 
             fila[1] = item.getProductoSeleccionado().getIdProducto(); 
-            fila[2] = item.getProductoSeleccionado().getTitulo();     
+            fila[2] = item.getProductoSeleccionado().getNombre();     
             fila[3] = item.getCantidad();                             
             fila[4] = String.format("$%.2f", item.getSubtotal());   
             fila[5] = "Eliminar";                                     
@@ -292,8 +292,8 @@ public class PantallaCarrito extends javax.swing.JPanel {
                 if (fila >= 0) {
                     Object value = tblCarrito.getValueAt(fila, 1); 
 
-                    if (value != null) {
-                        String idProducto = value.toString();
+                    if (value instanceof Long) {
+                        Long idProducto = (Long) value;
                         javax.swing.SwingUtilities.invokeLater(() -> {
                             control.eliminarProductoCarrito(idProducto);
                             control.llenarTablaCarrito(PantallaCarrito.this);

@@ -1,3 +1,4 @@
+
 package itson.org.ghosttracks.entidades;
 
 import java.util.ArrayList;
@@ -22,9 +23,8 @@ public class Carrito {
         this.subtotal = 0.0;
         if (items != null) {
             for (ItemCarrito item : items) {
-                if (item.getSubtotal() != null) {
-                    this.subtotal += item.getSubtotal();
-                }
+                item.calcularSubtotal();
+                this.subtotal += item.getSubtotal();
             }
         }
         

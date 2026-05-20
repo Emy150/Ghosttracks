@@ -39,12 +39,12 @@ public class pnlProductoSugerencia extends javax.swing.JPanel {
 
     public void setDatosSugerencia(ProductoDTO producto) {
         if (producto != null) {
-            lblProductSug01.setText(producto.getTitulo());
+            lblProductSug01.setText(producto.getNombre());
             lblArtistSug01.setText(producto.getArtista());
             lblPrecioSug01.setText(String.format("$%.2f", producto.getPrecio()));
             
             try {
-                byte[] nombreArchivo = producto.getImg();
+                String nombreArchivo = producto.getImgProducto();
 
                 String ruta = "/imgCatalogo/" + nombreArchivo;
 
@@ -63,7 +63,7 @@ public class pnlProductoSugerencia extends javax.swing.JPanel {
                     }
                 }
             } catch (Exception e) {
-                System.out.println("Error cargando imagen de: " + producto.getTitulo() + " - " + e.getMessage());
+                System.out.println("Error cargando imagen de: " + producto.getNombre() + " - " + e.getMessage());
                 lblImg.setIcon(null);
                 lblImg.setText("Imagen no disp.");
             }

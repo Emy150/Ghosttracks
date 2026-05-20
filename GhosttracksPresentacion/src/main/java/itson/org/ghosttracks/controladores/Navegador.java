@@ -1,3 +1,4 @@
+
 package itson.org.ghosttracks.controladores;
 
 import itson.org.ghosttracks.dtos.PedidoDTO;
@@ -5,7 +6,6 @@ import itson.org.ghosttracks.dtos.ProductoDTO;
 import itson.org.ghosttracks.presentacion.VentanaPrincipal;
 import itson.org.ghosttracks.presentacion.administrador.PanelConfirmarEmpaquetado;
 import itson.org.ghosttracks.presentacion.administrador.PanelDatosPaquete;
-import itson.org.ghosttracks.presentacion.administrador.PantallaGestionArticulos;
 import itson.org.ghosttracks.presentacion.administrador.PantallaVentasProcesarAdmin;
 import itson.org.ghosttracks.presentacion.administrador.PantallaVentas;
 import itson.org.ghosttracks.presentacion.cliente.PantallaCarrito;
@@ -29,11 +29,9 @@ public class Navegador {
     private final VentanaPrincipal ventana;
     private final ControlVentaEnLinea ctrlVentaLinea;
     private ControladorVentasAdmin ctrlVentasAdmin;
-    private final ControladorGestionArticulos ctrlGestionArticulos;
  
     public Navegador(VentanaPrincipal ventana) {
         this.ctrlVentaLinea = new ControlVentaEnLinea(this);
-        this.ctrlGestionArticulos = new ControladorGestionArticulos(this);
         this.ventana = ventana;
     }
     
@@ -116,13 +114,6 @@ public class Navegador {
         JPanel panelEnvio = new PanelDatosPaquete(ctrlVentasAdmin, pedidoSeleccionado);
         vistaBase.cambiarPanelAccion(panelEnvio);
         ventana.cambiarPantalla(vistaBase);
-    }
-    
-    // GESTION DE ARTICULOS
-    public void abrirGestionArticulos() {
-        ControladorGestionArticulos ctrl = new ControladorGestionArticulos(this);
-        PantallaGestionArticulos vista = new PantallaGestionArticulos(ctrl);
-        ventana.cambiarPantalla(vista);
     }
     
     //Utilidades
