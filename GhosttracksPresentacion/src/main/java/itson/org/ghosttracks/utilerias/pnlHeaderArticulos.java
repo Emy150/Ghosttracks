@@ -4,6 +4,9 @@
  */
 package itson.org.ghosttracks.utilerias;
 
+import itson.org.ghosttracks.controladores.SesionUsuario;
+import itson.org.ghosttracks.dtos.ClienteDTO;
+
 /**
  *
  * @author emyla
@@ -15,8 +18,21 @@ public class pnlHeaderArticulos extends javax.swing.JPanel {
      */
     public pnlHeaderArticulos() {
         initComponents();
+        cargarDatosSesion();
     }
 
+    private void cargarDatosSesion() {
+        if (SesionUsuario.getInstancia().haySesionActiva()) {
+            
+            ClienteDTO cliente = SesionUsuario.getInstancia().getCliente();
+            
+            String nombreMostrado = cliente.getNombre() + " " + cliente.getApellidoPaterno();
+            
+            lblNombre.setText(nombreMostrado);
+        } else {
+            lblNombre.setText("Invitado"); 
+        }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

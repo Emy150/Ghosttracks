@@ -11,7 +11,7 @@ import org.bson.codecs.pojo.annotations.BsonRepresentation;
  *
  * @author emyla
  */
-@BsonDiscriminator(key = "tipoUsuario")
+@BsonDiscriminator(key = "_t")
 public class Usuario {
     
     @BsonId

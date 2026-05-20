@@ -16,6 +16,7 @@ import itson.org.ghosttracks.presentacion.cliente.PantallaSeleccionMetodoDePago;
 import itson.org.ghosttracks.presentacion.cliente.PantallaVistaProducto;
 import itson.org.ghosttracks.presentacion.panelLogin;
 import itson.org.ghosttracks.utilerias.PanelHeader;
+import itson.org.ghosttracks.utilerias.pnlHeaderArticulos;
 import itson.org.ghosttracks.utilerias.pnlMenuLateral;
 import itson.org.ghosttracks.utilerias.pnlMenuLateralAdmin;
 import itson.org.ghosttracks.utilerias.pnlResumenPedidoConfirmado;
@@ -57,6 +58,7 @@ public class Navegador {
     }
  
     public void irInicioCliente() {
+        ventana.fijarHeader(new PanelHeader(this));
         PantallaInicioCliente vista = new PantallaInicioCliente(ctrlVentaLinea);
         ventana.cambiarPantalla(vista);
     }
@@ -100,11 +102,13 @@ public class Navegador {
     }
  
     public void irVentasAdmin() {
+        ventana.fijarHeader(new PanelHeader(this));
         PantallaVentas vista = new PantallaVentas(ctrlVentasAdmin);
         ventana.cambiarPantalla(vista);
     }
  
     public void irPantallaConfirmarEmpaque(PedidoDTO pedidoSeleccionado) {
+        ventana.fijarHeader(new PanelHeader(this));
         PantallaVentasProcesarAdmin vistaBase = new PantallaVentasProcesarAdmin(ctrlVentasAdmin, pedidoSeleccionado);
         JPanel panelEmpaque = new PanelConfirmarEmpaquetado(ctrlVentasAdmin, pedidoSeleccionado);
         vistaBase.cambiarPanelAccion(panelEmpaque);
@@ -112,6 +116,7 @@ public class Navegador {
     }
  
     public void irPantallaConfirmarEnvio(PedidoDTO pedidoSeleccionado) {
+        ventana.fijarHeader(new PanelHeader(this));
         PantallaVentasProcesarAdmin vistaBase = new PantallaVentasProcesarAdmin(ctrlVentasAdmin, pedidoSeleccionado);
         JPanel panelEnvio = new PanelDatosPaquete(ctrlVentasAdmin, pedidoSeleccionado);
         vistaBase.cambiarPanelAccion(panelEnvio);
@@ -120,8 +125,11 @@ public class Navegador {
     
     // GESTION DE ARTICULOS
     public void abrirGestionArticulos() {
+        ventana.fijarHeader(new pnlHeaderArticulos());
         ControladorGestionArticulos ctrl = new ControladorGestionArticulos(this);
         PantallaGestionArticulos vista = new PantallaGestionArticulos(ctrl);
+        ctrl.llenarTablaInventario(vista);
+        
         ventana.cambiarPantalla(vista);
     }
     

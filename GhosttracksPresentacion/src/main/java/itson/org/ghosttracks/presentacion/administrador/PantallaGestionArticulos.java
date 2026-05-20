@@ -1,6 +1,8 @@
 package itson.org.ghosttracks.presentacion.administrador;
 
 import itson.org.ghosttracks.controladores.ControladorGestionArticulos;
+import itson.org.ghosttracks.dtos.ProductoDTO;
+import java.util.List;
 
 /**
  *
@@ -14,9 +16,14 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
     public PantallaGestionArticulos(ControladorGestionArticulos control) {
         this.control = control;
         initComponents();
-        control.llenarTablaInventario(this);
+        control.llenarTablaInventario(this); 
+        jScrollPane1.getVerticalScrollBar().setUnitIncrement(22);
     }
     
+    public void cargarCatalogo(List<ProductoDTO> productos) {
+        // Redirigimos la lista al componente encargado de pintarlos
+        this.pnlCatalogo1.cargarCatalogo(productos, this.control);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -34,11 +41,14 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
         cmbTipoArticulo = new itson.org.ghosttracks.utilerias.ComboBoxRedondeado();
         lblEstado = new javax.swing.JLabel();
         comboBoxRedondeado1 = new itson.org.ghosttracks.utilerias.ComboBoxRedondeado();
-        textFieldRedondeado1 = new itson.org.ghosttracks.utilerias.TextFieldRedondeado();
+        txtBuscador = new itson.org.ghosttracks.utilerias.TextFieldRedondeado();
         botonRedondeado1 = new itson.org.ghosttracks.utilerias.BotonRedondeado();
         botonRedondeado2 = new itson.org.ghosttracks.utilerias.BotonRedondeado();
 
+        setPreferredSize(new java.awt.Dimension(1100, 675));
+
         jPanel1.setBackground(new java.awt.Color(237, 229, 222));
+        jPanel1.setPreferredSize(new java.awt.Dimension(1100, 675));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         jScrollPane1.setViewportView(pnlCatalogo1);
@@ -57,17 +67,17 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
         comboBoxRedondeado1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Seleccionar estado", "Disponible", "Agotado" }));
         comboBoxRedondeado1.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
 
-        textFieldRedondeado1.setToolTipText("");
-        textFieldRedondeado1.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
-        textFieldRedondeado1.addActionListener(this::textFieldRedondeado1ActionPerformed);
+        txtBuscador.setToolTipText("");
+        txtBuscador.setFont(new java.awt.Font("Corbel", 1, 18)); // NOI18N
+        txtBuscador.addActionListener(this::txtBuscadorActionPerformed);
 
-        botonRedondeado1.setBackground(new java.awt.Color(230, 94, 7));
+        botonRedondeado1.setBackground(new java.awt.Color(191, 64, 43));
         botonRedondeado1.setForeground(new java.awt.Color(255, 255, 255));
         botonRedondeado1.setText("Nuevo artículo");
         botonRedondeado1.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         botonRedondeado1.addActionListener(this::botonRedondeado1ActionPerformed);
 
-        botonRedondeado2.setBackground(new java.awt.Color(230, 94, 7));
+        botonRedondeado2.setBackground(new java.awt.Color(191, 64, 43));
         botonRedondeado2.setForeground(new java.awt.Color(255, 255, 255));
         botonRedondeado2.setFont(new java.awt.Font("Arial", 1, 20)); // NOI18N
         botonRedondeado2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -89,7 +99,7 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1080, Short.MAX_VALUE)
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 1066, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel1Layout.createSequentialGroup()
@@ -101,7 +111,7 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                         .addComponent(cmbTipoArticulo, javax.swing.GroupLayout.PREFERRED_SIZE, 238, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(textFieldRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 548, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addGap(20, 20, 20))
         );
         jPanel1Layout.setVerticalGroup(
@@ -119,41 +129,39 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
                             .addComponent(comboBoxRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(44, 44, 44)
-                        .addComponent(textFieldRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(txtBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 410, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botonRedondeado1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(botonRedondeado2, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(144, Short.MAX_VALUE))
+                .addContainerGap(106, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1114, Short.MAX_VALUE)
+            .addGap(0, 1100, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 713, Short.MAX_VALUE)
+            .addGap(0, 675, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE)))
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void textFieldRedondeado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textFieldRedondeado1ActionPerformed
+    private void txtBuscadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscadorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_textFieldRedondeado1ActionPerformed
+    }//GEN-LAST:event_txtBuscadorActionPerformed
 
     private void botonRedondeado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRedondeado1ActionPerformed
         // TODO add your handling code here:
@@ -174,6 +182,6 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
     private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblTipo;
     private itson.org.ghosttracks.utilerias.pnlCatalogo pnlCatalogo1;
-    private itson.org.ghosttracks.utilerias.TextFieldRedondeado textFieldRedondeado1;
+    private itson.org.ghosttracks.utilerias.TextFieldRedondeado txtBuscador;
     // End of variables declaration//GEN-END:variables
 }

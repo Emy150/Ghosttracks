@@ -6,7 +6,7 @@ import org.bson.codecs.pojo.annotations.BsonDiscriminator;
  *
  * @author cinca
  */
-@BsonDiscriminator(value = "ADMIN")
+@BsonDiscriminator(value = "ADMINISTRADOR")
 public class Administrador extends Usuario{
 
     public Administrador() {

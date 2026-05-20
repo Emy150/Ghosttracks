@@ -60,9 +60,8 @@ public class GestionArticulos implements IGestionArticulos {
     }
 
     @Override
-    public List<ProductoDTO> consultarCatalogo(String filtro) throws NegocioException {
-        // Le pedimos al experto en productos que nos traiga la lista filtrada
-        LOGGER.fine("Subsistema: Consultando el catálogo con filtro: " + filtro);
+    public List<ProductoDTO> consultarInventario(String filtro) throws NegocioException {
+        LOGGER.info("Subsistema Fachada: Solicitando inventario completo al BO.");
         return productosBO.buscarProductos(filtro);
     }
 
