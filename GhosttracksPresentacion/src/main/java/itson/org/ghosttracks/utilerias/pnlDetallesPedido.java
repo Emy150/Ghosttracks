@@ -35,7 +35,7 @@ public class pnlDetallesPedido extends javax.swing.JPanel {
         }
 
         lblFolioDeVenta.setText("Folio de la venta: " + (pedido.getIdPedido() != null ? pedido.getIdPedido() : "N/A"));
-        String textoCliente = (pedido.getCliente() != null) ? pedido.getCliente().getNombres()+" "+pedido.getCliente().getApellidoPaterno(): "Desconocido"; 
+        String textoCliente = (pedido.getCliente() != null) ? pedido.getCliente().getNombre() + " " + pedido.getCliente().getApellidoPaterno() : "Desconocido";
         lblCliente.setText("Cliente: " + textoCliente);
         String textoSucursal = (pedido.getSucursal() != null) ? pedido.getSucursal().getNombre() : "N/A";
         lblSucursal.setText("Sucursal: " + textoSucursal);

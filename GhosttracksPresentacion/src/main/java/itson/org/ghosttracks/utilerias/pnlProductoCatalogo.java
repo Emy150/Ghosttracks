@@ -23,13 +23,13 @@ public class pnlProductoCatalogo extends javax.swing.JPanel {
         this.producto = producto;
         this.control = control;
         
-        lblNombreProducto.setText(producto.getNombre());
+        lblNombreProducto.setText(producto.getTitulo());
         lblArtista.setText(producto.getArtista());
         lblPrecio.setText("$" + producto.getPrecio());
         
         
         try {
-            String nombreArchivo = producto.getImgProducto();
+            byte[] nombreArchivo = producto.getImg();
             
             String ruta = "/imgCatalogo/" + nombreArchivo;
             
@@ -48,7 +48,7 @@ public class pnlProductoCatalogo extends javax.swing.JPanel {
                 }
             }
         } catch (Exception e) {
-            System.out.println("Error cargando imagen de: " + producto.getNombre() + " - " + e.getMessage());
+            System.out.println("Error cargando imagen de: " + producto.getTitulo() + " - " + e.getMessage());
             lblImg.setIcon(null);
             lblImg.setText("Imagen no disp.");
         }

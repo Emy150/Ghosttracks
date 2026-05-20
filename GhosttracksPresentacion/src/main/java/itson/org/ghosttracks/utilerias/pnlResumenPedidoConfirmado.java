@@ -29,25 +29,34 @@ public class pnlResumenPedidoConfirmado extends javax.swing.JPanel {
     
     public void cargarDatosPedido(PedidoDTO pedido) {
         if (pedido == null) return;
-
-        lblNumPedidoDisplay.setText("#" + pedido.getIdPedido());
         
+        lblNumPedidoDisplay.setText("#" + (pedido.getFolio() != null ? pedido.getFolio() : "S/F"));
+
         if (pedido.getCarrito() != null) {
-            lblSubtotalDisplay.setText(String.format("$%.2f", pedido.getCarrito().getSubtotal()));
-            lblImpuestosDisplay.setText(String.format("$%.2f", pedido.getCarrito().getImpuestos()));
             
-            lblEnvioDisplay.setText(String.format("$%.2f", pedido.getCostoEnvio())); 
-            lblTotalDisplay.setText(String.format("$%.2f", pedido.getCarrito().getTotal()));
-            
-            
+            double total = pedido.getCarrito().getTotal() != null ? pedido.getCarrito().getTotal() : 0.0;
+            double subtotal = pedido.getCarrito().getSubtotal() != null ? pedido.getCarrito().getSubtotal() : 0.0;
+            double impuestos = pedido.getCarrito().getImpuestos() != null ? pedido.getCarrito().getImpuestos() : 0.0;
+
+            if (subtotal == 0.0 && total > 0.0) {
+                
+                subtotal = total / 1.16;
+                impuestos = total - subtotal;
+            }
+
+            lblSubtotalDisplay.setText(String.format("$%.2f", subtotal));
+            lblImpuestosDisplay.setText(String.format("$%.2f", impuestos));
+            lblEnvioDisplay.setText(String.format("$%.2f", pedido.getCostoEnvio() != null ? pedido.getCostoEnvio() : 0.0)); 
+            lblTotalDisplay.setText(String.format("$%.2f", total));
+
+            // Renderizado de tarjetas de productos 
             pnlResumenPedido.setLayout(new javax.swing.BoxLayout(pnlResumenPedido, javax.swing.BoxLayout.X_AXIS));
             pnlResumenPedido.removeAll(); 
 
             pnlResumenPedido.add(Box.createRigidArea(new Dimension(10, 0)));
-            
-            if (pedido.getCarrito().getProductos() != null) {
+
+            if (pedido.getCarrito().getProductos() != null && !pedido.getCarrito().getProductos().isEmpty()) {
                 for (ItemCarritoDTO item : pedido.getCarrito().getProductos()) {
-                  
                     ProductoDTO prod = item.getProductoSeleccionado();
                     Integer cant = item.getCantidad() != null ? item.getCantidad() : 0;
                     pnllResumenProducto tarjeta = new pnllResumenProducto(prod, cant);
@@ -55,25 +64,26 @@ public class pnlResumenPedidoConfirmado extends javax.swing.JPanel {
                     pnlResumenPedido.add(Box.createRigidArea(new Dimension(15, 0)));
                 }
             }
-            
+
             pnlResumenPedido.revalidate();
             pnlResumenPedido.repaint();
         }
 
-        
-        if (pedido.getContacto() != null) {
+        // Datos de Contacto 
+        if (pedido.getContacto() != null && pedido.getContacto().getNombre() != null) {
             lblNombre.setText(pedido.getContacto().getNombre());
         } else {
             lblNombre.setText("Sin nombre");
         }
 
+        // Dirección de Envío 
         if (pedido.getDireccionEntrega() != null) {
             itson.org.ghosttracks.dtos.DireccionEntregaDTO dir = pedido.getDireccionEntrega();
             lblCalle.setText(dir.getCalle() != null ? dir.getCalle() : "Calle no registrada");
             lblNumero.setText(dir.getNumero() != null ? "#" + dir.getNumero() : "S/N");
             lblColonia.setText(dir.getColonia() != null ? dir.getColonia() : "");
             lblCiudad.setText(dir.getCiudad() != null ? dir.getCiudad() : "Ciudad no registrada");
-            lblEstado.setText(dir.getEstado()); 
+            lblEstado.setText(dir.getEstado() != null ? dir.getEstado() : ""); 
             lblCodigoPostal.setText(dir.getCodigoPostal() != null ? "CP: " + dir.getCodigoPostal() : "");
         } else {
             lblCalle.setText("Recoger en sucursal");

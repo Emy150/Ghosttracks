@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.negocio.interfaces;
 
 import itson.org.ghosttracks.entidades.Paquete;
@@ -16,11 +12,10 @@ public interface IPaquetesBO {
     
     public abstract Paquete registrarEmpaque(Paquete paquete) throws NegocioException;
     
-    public Paquete generarAsignarGuia(Long idPaquete) throws NegocioException;
+    public Paquete generarAsignarGuia(String idPaquete) throws NegocioException;
             
-    public abstract Paquete consultarPaquetePorId(Long idPaquete) throws NegocioException;
+    public abstract Paquete consultarPaquetePorId(String idPaquete) throws NegocioException;
     
     public abstract List<Paquete> consultarTodos() throws NegocioException;
-    
     
 }

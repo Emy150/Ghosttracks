@@ -1,14 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.negocio.mappers;
 
 import itson.org.ghosttracks.dtos.CarritoDTO;
 import itson.org.ghosttracks.dtos.ItemCarritoDTO;
+import itson.org.ghosttracks.dtos.ProductoDTO; // Asegúrate de importar esto
 import itson.org.ghosttracks.entidades.Carrito;
 import itson.org.ghosttracks.entidades.ItemCarrito;
-import itson.org.ghosttracks.entidades.Producto;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,14 +55,19 @@ public class CarritoMapper {
         return entidad;
     }
     
-    //Métodos auxiliares
+    // Métodos auxiliares
     private static ItemCarritoDTO toItemDTO(ItemCarrito entidad) {
         if (entidad == null) return null;
  
         ItemCarritoDTO dto = new ItemCarritoDTO();
         dto.setCantidad(entidad.getCantidad());
         dto.setSubtotal(entidad.getSubtotal());
-        dto.setProductoSeleccionado(ProductoMapper.toDTO(entidad.getProducto()));
+        
+        if (entidad.getIdProducto() != null) {
+            ProductoDTO productoCascaron = new ProductoDTO();
+            productoCascaron.setIdProducto(entidad.getIdProducto()); 
+            dto.setProductoSeleccionado(productoCascaron);
+        }
         return dto;
     }
  
@@ -78,9 +79,9 @@ public class CarritoMapper {
         entidad.setSubtotal(dto.getSubtotal());
  
         if (dto.getProductoSeleccionado() != null) {
-            Producto productoEntidad = ProductoMapper.toEntidad(dto.getProductoSeleccionado());
-            entidad.setProducto(productoEntidad);
+            entidad.setIdProducto(dto.getProductoSeleccionado().getIdProducto()); 
         }
+        
         return entidad;
     }
 }

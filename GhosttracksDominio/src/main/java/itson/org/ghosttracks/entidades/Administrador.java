@@ -1,36 +1,19 @@
- /*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.entidades;
+
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+
 /**
  *
  * @author cinca
  */
+@BsonDiscriminator(value = "ADMIN")
 public class Administrador extends Usuario{
-    
-    private Long idEmpleado;
-    
+
     public Administrador() {
         
     }
 
-    public Administrador(Long idEmpleado, Long idUsuario, String nombres, String apellidoPaterno, String apellidoMaterno, String correo, String contraseña) {
-        super(idUsuario, nombres, apellidoPaterno, apellidoMaterno, correo, contraseña);
-        this.idEmpleado = idEmpleado;
+    public Administrador(String idUsuario, String nombre, String apellidoPaterno, String apellidoMaterno, String correo, String contrasenia) {
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correo, contrasenia);
     }
-
-    public Administrador(Long idEmpleado, String nombres, String apellidoPaterno, String apellidoMaterno, String correo, String contraseña) {
-        super(nombres, apellidoPaterno, apellidoMaterno, correo, contraseña);
-        this.idEmpleado = idEmpleado;
-    }
-
-    public Long getIdEmpleado() {
-        return idEmpleado;
-    }
-
-    public void setIdEmpleado(Long idEmpleado) {
-        this.idEmpleado = idEmpleado;
-    }
-    
 }

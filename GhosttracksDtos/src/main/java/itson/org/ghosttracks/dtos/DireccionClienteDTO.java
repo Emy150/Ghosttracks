@@ -90,6 +90,4 @@ public class DireccionClienteDTO {
     public void setEstado(String estado) {
         this.estado = estado;
     }
-    
-    
 }

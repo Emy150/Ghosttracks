@@ -1,10 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.negocio.interfaces;
 
-import itson.org.ghosttracks.entidades.Producto;
+import itson.org.ghosttracks.dtos.NuevoProductoDTO;
+import itson.org.ghosttracks.dtos.ProductoActualizadoDTO;
+import itson.org.ghosttracks.dtos.ProductoDTO;
 import itson.org.ghosttracks.negocio.objetosNegocio.Excepciones.NegocioException;
 import java.util.List;
 
@@ -13,6 +11,15 @@ import java.util.List;
  * @author nafbr
  */
 public interface IProductosBO {
-    public abstract List<Producto> obtenerTodos() throws NegocioException;
-    public abstract Producto obtenerProductoPorId(Long id) throws NegocioException;
+    public abstract ProductoDTO registrarProducto(NuevoProductoDTO nuevoDto) throws NegocioException;
+    
+    public abstract ProductoDTO modificarProducto(ProductoActualizadoDTO actualizadoDto) throws NegocioException;
+    
+    public abstract ProductoDTO eliminarProducto(String idProducto) throws NegocioException;
+    
+    public abstract List<ProductoDTO> buscarProductos(String filtro) throws NegocioException;
+    
+    public abstract boolean validarStockMinimo(ProductoDTO productoDto) throws NegocioException;
+    
+    public abstract boolean validarPrecioMinimo(ProductoDTO productoDto) throws NegocioException;
 }

@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
  */
 public class PaqueteDTO {
     
-    private Long idPaquete;
+    private String idPaquete;
     private String numeroGuia;
     private String idEnvio;
     private EstadoPaquete estado; 
@@ -24,9 +24,10 @@ public class PaqueteDTO {
     private Double altoCm;
 
     public PaqueteDTO() {
+        
     }
 
-    public PaqueteDTO(Long idPaquete, String numeroGuia, String idEnvio, EstadoPaquete estado, LocalDateTime fechaEnvio, LocalDateTime fechaEntregaEstimada, LocalDateTime fechaEntregaFinal, String ubicacionActual, PedidoDTO pedido, Double pesoKg, Double largoCm, Double anchoCm, Double altoCm) {
+    public PaqueteDTO(String idPaquete, String numeroGuia, String idEnvio, EstadoPaquete estado, LocalDateTime fechaEnvio, LocalDateTime fechaEntregaEstimada, LocalDateTime fechaEntregaFinal, String ubicacionActual, PedidoDTO pedido, Double pesoKg, Double largoCm, Double anchoCm, Double altoCm) {
         this.idPaquete = idPaquete;
         this.numeroGuia = numeroGuia;
         this.idEnvio = idEnvio;
@@ -57,11 +58,11 @@ public class PaqueteDTO {
         this.altoCm = altoCm;
     }
 
-    public Long getIdPaquete() {
+    public String getIdPaquete() {
         return idPaquete;
     }
 
-    public void setIdPaquete(Long idPaquete) {
+    public void setIdPaquete(String idPaquete) {
         this.idPaquete = idPaquete;
     }
 
@@ -160,5 +161,4 @@ public class PaqueteDTO {
     public void setAltoCm(Double altoCm) {
         this.altoCm = altoCm;
     }
-    
 }

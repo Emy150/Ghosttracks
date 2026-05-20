@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Interface.java to edit this template
- */
 package itson.org.ghosttracks.daos;
 
 import itson.org.ghosttracks.entidades.Cliente;
@@ -9,11 +5,14 @@ import itson.org.ghosttracks.exceptions.PersistenciaException;
 import java.util.List;
 
 /**
- *
- * @author nafbr
+ * Interfaz para las operaciones de persistencia de Clientes.
+ * @author emyla
  */
 public interface IClientesDAO {
-    Cliente buscarPorId(Long idCliente) throws PersistenciaException;
-    public abstract Cliente iniciarSesion(String correo, String contrasena) throws PersistenciaException; 
-    List<Long> buscarIdsPorNombre(String nombreCliente) throws PersistenciaException;
+    
+    Cliente obtenerClientePorId(String idCliente) throws PersistenciaException;
+    
+    Cliente autenticarCliente(String correo, String contrasena) throws PersistenciaException;
+    
+    List<String> buscarIdsClientesPorNombre(String nombreCliente) throws PersistenciaException;
 }

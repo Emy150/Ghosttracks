@@ -2,14 +2,22 @@ package itson.org.ghosttracks.entidades;
 
 import itson.org.ghosttracks.enums.EstadoPaquete;
 import java.time.LocalDateTime;
+import java.util.Objects;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
 
 /**
- *
  * @author emyla
  */
 public class Paquete {
    
-    private Long idPaquete;
+    @BsonId
+    @BsonProperty("_id")
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idPaquete;
+    
     private String numeroGuia;
     private String idEnvio;
     private EstadoPaquete estado; 
@@ -24,9 +32,10 @@ public class Paquete {
     private Double altoCm;
 
     public Paquete() {
+        
     }
 
-    public Paquete(Long idPaquete, String numeroGuia, String idEnvio, EstadoPaquete estado, LocalDateTime fechaEnvio, LocalDateTime fechaEntregaEstimada, LocalDateTime fechaEntregaFinal, String ubicacionActual, Pedido pedido, Double pesoKg, Double largoCm, Double anchoCm, Double altoCm) {
+    public Paquete(String idPaquete, String numeroGuia, String idEnvio, EstadoPaquete estado, LocalDateTime fechaEnvio, LocalDateTime fechaEntregaEstimada, LocalDateTime fechaEntregaFinal, String ubicacionActual, Pedido pedido, Double pesoKg, Double largoCm, Double anchoCm, Double altoCm) {
         this.idPaquete = idPaquete;
         this.numeroGuia = numeroGuia;
         this.idEnvio = idEnvio;
@@ -57,13 +66,11 @@ public class Paquete {
         this.altoCm = altoCm;
     }
 
-    
-
-    public Long getIdPaquete() {
+    public String getIdPaquete() {
         return idPaquete;
     }
 
-    public void setIdPaquete(Long idPaquete) {
+    public void setIdPaquete(String idPaquete) {
         this.idPaquete = idPaquete;
     }
 
@@ -162,7 +169,43 @@ public class Paquete {
     public void setAltoCm(Double altoCm) {
         this.altoCm = altoCm;
     }
-   
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 41 * hash + Objects.hashCode(this.idPaquete);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Paquete other = (Paquete) obj;
+        return Objects.equals(this.idPaquete, other.idPaquete);
+    }
+
+    @Override
+    public String toString() {
+        return "Paquete{" + "idPaquete=" + idPaquete + 
+                ", numeroGuia=" + numeroGuia + 
+                ", idEnvio=" + idEnvio + 
+                ", estado=" + estado + 
+                ", fechaEnvio=" + fechaEnvio + 
+                ", fechaEntregaEstimada=" + fechaEntregaEstimada + 
+                ", fechaEntregaFinal=" + fechaEntregaFinal + 
+                ", ubicacionActual=" + ubicacionActual + 
+                ", pedido=" + pedido + 
+                ", pesoKg=" + pesoKg + 
+                ", largoCm=" + largoCm + 
+                ", anchoCm=" + anchoCm + 
+                ", altoCm=" + altoCm + '}';
+    }
 }

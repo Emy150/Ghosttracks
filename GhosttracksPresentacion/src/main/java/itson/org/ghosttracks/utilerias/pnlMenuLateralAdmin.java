@@ -57,6 +57,7 @@ public class pnlMenuLateralAdmin extends javax.swing.JPanel {
         btnArticulos.setText("Articulos");
         btnArticulos.setBorder(null);
         btnArticulos.setPreferredSize(new java.awt.Dimension(250, 40));
+        btnArticulos.addActionListener(this::btnArticulosActionPerformed);
 
         lblLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ghostracksLogo.png"))); // NOI18N
 
@@ -136,6 +137,10 @@ public class pnlMenuLateralAdmin extends javax.swing.JPanel {
     private void btnCerrarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCerrarSesionActionPerformed
         navegador.cerrarSesion();
     }//GEN-LAST:event_btnCerrarSesionActionPerformed
+
+    private void btnArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticulosActionPerformed
+        navegador.abrirGestionArticulos();
+    }//GEN-LAST:event_btnArticulosActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

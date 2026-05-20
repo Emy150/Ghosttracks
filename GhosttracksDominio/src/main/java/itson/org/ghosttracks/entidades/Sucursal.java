@@ -1,16 +1,20 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.entidades;
 
+import java.util.Objects;
+import org.bson.BsonType;
+import org.bson.codecs.pojo.annotations.BsonId;
+import org.bson.codecs.pojo.annotations.BsonProperty;
+import org.bson.codecs.pojo.annotations.BsonRepresentation;
+
 /**
- *
  * @author cinca
  */
 public class Sucursal {
     
-    private Long idSucursal;
+    @BsonId
+    @BsonProperty("_id")
+    @BsonRepresentation(BsonType.OBJECT_ID)
+    private String idSucursal;
     
     private Direccion direccion;
     private String telefono;
@@ -26,18 +30,18 @@ public class Sucursal {
         this.nombre = nombre;
     }
 
-    public Sucursal(Long idSucursal, Direccion direccion, String telefono, String nombre) {
+    public Sucursal(String idSucursal, Direccion direccion, String telefono, String nombre) {
         this.idSucursal = idSucursal;
         this.direccion = direccion;
         this.telefono = telefono;
         this.nombre = nombre;
     }
 
-    public Long getIdSucursal() {
+    public String getIdSucursal() {
         return idSucursal;
     }
 
-    public void setIdSucursal(Long idSucursal) {
+    public void setIdSucursal(String idSucursal) {
         this.idSucursal = idSucursal;
     }
 
@@ -64,6 +68,31 @@ public class Sucursal {
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
-    
-    
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 23 * hash + Objects.hashCode(this.idSucursal);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Sucursal other = (Sucursal) obj;
+        return Objects.equals(this.idSucursal, other.idSucursal);
+    }
+
+    @Override
+    public String toString() {
+        return "Sucursal{" + "idSucursal=" + idSucursal + ", direccion=" + direccion + ", telefono=" + telefono + ", nombre=" + nombre + '}';
+    }
 }

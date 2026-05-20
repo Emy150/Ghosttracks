@@ -31,7 +31,7 @@ public class SkydropxServicio {
     }
 
     // Crea, genera guía y guarda el paquete
-    public SkydropxPaquete crearEnvio(Long idReferenciaExterna, Double pesoKg) {
+    public SkydropxPaquete crearEnvio(String idReferenciaExterna, Double pesoKg) {
         try {
             if (idReferenciaExterna == null) {
                 throw new IllegalArgumentException("El ID de referencia externa es obligatorio para crear el envío.");

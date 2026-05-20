@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.negocio.mappers;
 
+import itson.org.ghosttracks.dtos.ClienteDTO;
 import itson.org.ghosttracks.dtos.ContactoDTO;
 import itson.org.ghosttracks.dtos.DireccionEntregaDTO;
 import itson.org.ghosttracks.dtos.PedidoDTO;
@@ -17,8 +14,7 @@ import itson.org.ghosttracks.enums.EstadoPedidoDTO;
 
 /**
  * Pedido Mapper.
- * Usan el nombre mapper ya que no queremos que colisionen con los adapters
- * @author nafbr
+ * @author nafbr, oliro
  */
 public class PedidoMapper {
  
@@ -27,18 +23,26 @@ public class PedidoMapper {
  
         PedidoDTO dto = new PedidoDTO();
         dto.setIdPedido(entidad.getIdPedido());
+        dto.setFolio(entidad.getFolio()); 
+        dto.setFechaPedido(entidad.getFechaPedido()); 
+        dto.setCostoEnvio(entidad.getCostoEnvio()); 
  
         if (entidad.getEstado() != null) {
             dto.setEstado(EstadoPedidoDTO.valueOf(entidad.getEstado().name()));
         }
  
-        dto.setCliente(ClienteMapper.toDTO(entidad.getCliente()));
+        if (entidad.getIdCliente() != null) {
+            ClienteDTO clienteDTO = new ClienteDTO();
+            clienteDTO.setIdCliente(entidad.getIdCliente()); 
+            dto.setCliente(clienteDTO);
+        }
+ 
         dto.setCarrito(CarritoMapper.toDTO(entidad.getCarrito()));
         dto.setPaquete(PaqueteMapper.toDTO(entidad.getPaquete()));
         dto.setDireccionEntrega(toDireccionEntregaDTO(entidad.getDireccionEntrega()));
         dto.setContacto(toContactoDTO(entidad.getContacto()));
         dto.setSucursal(toSucursalDTO(entidad.getSucursal()));
- 
+         
         return dto;
     }
  
@@ -47,6 +51,7 @@ public class PedidoMapper {
  
         DireccionEntregaDTO dto = new DireccionEntregaDTO();
         dto.setCalle(dir.getCalle());
+        dto.setColonia(dir.getColonia()); 
         dto.setNumero(dir.getNumero());
         dto.setCiudad(dir.getCiudad());
         dto.setCodigoPostal(dir.getCodigoPostal());
@@ -59,6 +64,7 @@ public class PedidoMapper {
         ContactoDTO dto = new ContactoDTO();
         dto.setNombre(contacto.getNombre());
         dto.setTelefono(contacto.getTelefono());
+        dto.setCorreo(contacto.getCorreo());
         return dto;
     }
  

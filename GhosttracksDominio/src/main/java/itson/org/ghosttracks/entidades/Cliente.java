@@ -1,16 +1,34 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.entidades;
 
+import org.bson.codecs.pojo.annotations.BsonDiscriminator;
+
 /**
- *
  * @author nafbr
  */
-public class Cliente extends Usuario{
+@BsonDiscriminator(value = "CLIENTE")
+public class Cliente extends Usuario {
+    
     private String telefono;
-    private Direccion direccion;
+    private Direccion direccion; 
+
+    public Cliente() {
+        super();
+    }
+
+    public Cliente(
+            String telefono,
+            Direccion direccion,
+            String idUsuario, 
+            String nombre, 
+            String apellidoPaterno,
+            String apellidoMaterno,
+            String correo,
+            String contrasenia 
+    ) {
+        super(idUsuario, nombre, apellidoPaterno, apellidoMaterno, correo, contrasenia); 
+        this.telefono = telefono;
+        this.direccion = direccion;
+    }
 
     public String getTelefono() {
         return telefono;
@@ -27,22 +45,12 @@ public class Cliente extends Usuario{
     public void setDireccion(Direccion direccion) {
         this.direccion = direccion;
     }
-
-    public Cliente() {
+    
+    public String getIdCliente() {
+        return super.getIdUsuario(); 
     }
-
-     public Cliente(
-            String telefono,
-            Direccion direccion,
-            Long idUsuario,
-            String nombres,
-            String apellidoPaterno,
-            String apellidoMaterno,
-            String correo,
-            String contraseña
-    ) {
-        super(nombres, apellidoPaterno, apellidoMaterno, correo, contraseña);
-        this.telefono = telefono;
-        this.direccion = direccion;
+    
+    public void setIdCliente(String idCliente) {
+        super.setIdUsuario(idCliente);
     }
 }

@@ -6,46 +6,46 @@ package itson.org.ghosttracks.dtos;
  */
 public class UsuarioDTO {
     
-    private Long idUsuario;
-    private String nombres;
+    private String idUsuario; 
+    private String nombre; 
     private String apellidoPaterno;
     private String apellidoMaterno;
     private String correo;
-    private String contraseña;
+    private String contrasenia; 
 
     public UsuarioDTO() {
     }
 
     public UsuarioDTO(
-            Long idUsuario, 
-            String nombres, 
+            String idUsuario, 
+            String nombre, 
             String apellidoPaterno, 
             String apellidoMaterno, 
             String correo, 
-            String contraseña
+            String contrasenia
     ) {
         this.idUsuario = idUsuario;
-        this.nombres = nombres;
+        this.nombre = nombre;
         this.apellidoPaterno = apellidoPaterno;
         this.apellidoMaterno = apellidoMaterno;
         this.correo = correo;
-        this.contraseña = contraseña;
+        this.contrasenia = contrasenia;
     }
 
-    public Long getIdUsuario() {
+    public String getIdUsuario() {
         return idUsuario;
     }
 
-    public void setIdUsuario(Long idUsuario) {
+    public void setIdUsuario(String idUsuario) {
         this.idUsuario = idUsuario;
     }
 
-    public String getNombres() {
-        return nombres;
+    public String getNombre() {
+        return nombre;
     }
 
-    public void setNombres(String nombres) {
-        this.nombres = nombres;
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getApellidoPaterno() {
@@ -72,14 +72,11 @@ public class UsuarioDTO {
         this.correo = correo;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasenia() {
+        return contrasenia;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasenia(String contrasenia) {
+        this.contrasenia = contrasenia;
     }
-    
-    
-    
 }

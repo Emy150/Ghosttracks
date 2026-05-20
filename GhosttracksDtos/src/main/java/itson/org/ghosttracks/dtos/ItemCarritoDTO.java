@@ -43,8 +43,4 @@ public class ItemCarritoDTO {
     public void setSubtotal(Double subtotal) {
         this.subtotal = subtotal;
     }
-    
-    
-    
-    
 }
