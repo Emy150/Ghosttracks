@@ -7,7 +7,6 @@ package itson.org.ghosttracks.utilerias;
 import itson.org.ghosttracks.controladores.ControladorGestionArticulos;
 import itson.org.ghosttracks.dtos.ProductoDTO;
 import java.awt.Color;
-import java.awt.Window;
 
 /**
  *
@@ -290,7 +289,13 @@ public class pnlArticuloCatalogo extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void lblEditarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEditarMouseClicked
-        // TODO add your handling code here:
+        System.out.println("¡Clic detectado en Editar!");
+        System.out.println("-> ¿Controlador es null?: " + (this.controlador == null));
+        System.out.println("-> ¿ProductoActual es null?: " + (this.productoActual == null));
+
+        if (this.controlador != null && this.productoActual != null) {
+            controlador.solicitarEdicion(this.productoActual);
+        }
     }//GEN-LAST:event_lblEditarMouseClicked
 
     private void lblEliminarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblEliminarMouseClicked

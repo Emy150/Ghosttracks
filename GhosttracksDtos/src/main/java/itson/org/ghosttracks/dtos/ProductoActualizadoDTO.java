@@ -1,5 +1,7 @@
 package itson.org.ghosttracks.dtos;
 
+import java.io.File;
+
 /**
  *
  * @author emyla
@@ -13,13 +15,13 @@ public class ProductoActualizadoDTO {
     private Integer stockInicial;
     private String tipo;
     private String genero;
-    private byte[] imagen;
+    private File imagen;
 
     public ProductoActualizadoDTO() {
         
     }
 
-    public ProductoActualizadoDTO(String idProducto, String titulo, String artista, Double precio, Integer stockInicial, String tipo, String genero, byte[] imagen) {
+    public ProductoActualizadoDTO(String idProducto, String titulo, String artista, Double precio, Integer stockInicial, String tipo, String genero, File imagen) {
         this.idProducto = idProducto;
         this.titulo = titulo;
         this.artista = artista;
@@ -86,11 +88,12 @@ public class ProductoActualizadoDTO {
         this.genero = genero;
     }
 
-    public byte[] getImagen() {
+    public File getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(File imagen) {
         this.imagen = imagen;
     }
+
 }

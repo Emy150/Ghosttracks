@@ -33,28 +33,10 @@ public class pnllResumenProducto extends javax.swing.JPanel {
         double subtotalProducto = producto.getPrecio() * cantidad;
         lblTotal.setText("$" + String.format("%.2f", subtotalProducto));
         
-        try {
-            byte[] nombreArchivo = producto.getImg();
-            String ruta = "/imgCatalogo/" + nombreArchivo;
-            
-            if (nombreArchivo != null) {
-                URL urlImagenLocal = getClass().getResource(ruta);
-                
-                if (urlImagenLocal != null) {
-                    Image imagenOriginal = ImageIO.read(urlImagenLocal);
-                    Image imagenEscalada = imagenOriginal.getScaledInstance(100, 94, Image.SCALE_SMOOTH);
-                    
-                    lblImg.setIcon(new ImageIcon(imagenEscalada));
-                } else {
-                    throw new Exception("Ruta no encontrada: " + ruta);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error cargando imagen en resumen de: " + producto.getTitulo() + " - " + e.getMessage());
-            lblImg.setIcon(null);
-            lblImg.setText("Sin img");
-            lblImg.setHorizontalAlignment(SwingConstants.CENTER);
-        }
+        // Llamada directa usando la utilería visual global
+        lblImg.setIcon(ImageUIHelper.conseguirIcono(producto.getImg(), 100, 94));
+        lblImg.setText(""); // Limpiamos cualquier texto previo
+        lblImg.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
     }
 
     /**

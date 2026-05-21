@@ -15,7 +15,9 @@ public interface IProductosBO {
     
     public abstract ProductoDTO modificarProducto(ProductoActualizadoDTO actualizadoDto) throws NegocioException;
     
-    public abstract ProductoDTO eliminarProducto(String idProducto) throws NegocioException;
+    public abstract ProductoDTO eliminarProducto(String idProducto, String correoAdmin, String contrasenia) throws NegocioException;
+            
+    public List<ProductoDTO> consultarCatalogoCompleto() throws NegocioException;
     
     public abstract List<ProductoDTO> buscarProductos(String filtro) throws NegocioException;
     

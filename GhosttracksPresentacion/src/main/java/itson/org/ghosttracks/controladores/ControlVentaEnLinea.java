@@ -18,8 +18,11 @@ import itson.org.ghosttracks.utilerias.pnlResumenPedido;
 import itson.org.ghosttracksventaenlinea.excepciones.VentaEnLineaException;
 import itson.org.ghosttracksventaenlinea.fachada.VentaEnLineaFachada;
 import itson.org.ghosttracksventaenlinea.interfaces.IVentaEnLinea;
+import itson.org.infraestructura.ServicioArchivos;
+import itson.org.interfaces.IServicioArchivos;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 
 /**
  * Controlador para gestionar el flujo de la venta en línea y catálogo de clientes.
@@ -29,6 +32,7 @@ public class ControlVentaEnLinea {
     
     private final Navegador navegador;
     private final IVentaEnLinea ventaFachada = new VentaEnLineaFachada();
+    private final IServicioArchivos servicioArchivos = new ServicioArchivos();
  
     private CarritoDTO carrito;
     private PedidoDTOBuilder pedidoBuilder;
@@ -115,6 +119,11 @@ public class ControlVentaEnLinea {
         } catch (Exception ex) {
             navegador.mostrarMensaje("Error al cargar el resumen del pedido.", true);
         }
+    }
+    
+    public ImageIcon obtenerIconoProducto(ProductoDTO producto, int ancho, int alto) {
+        byte[] bytes = (producto != null) ? producto.getImg() : null;
+        return servicioArchivos.crearIconoDesdeBytes(bytes, ancho, alto);
     }
     
     // COMPRA

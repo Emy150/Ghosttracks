@@ -15,16 +15,4 @@ public interface IUsuariosDAO {
     //  Métodos Genéricos 
     public Usuario obtenerUsuarioPorId(String idUsuario) throws PersistenciaException;
     
-    //Métodos de Administrador 
-    public Administrador autenticarAdmin(String correo, String contrasenia) throws PersistenciaException;
-    
-    public Administrador obtenerAdminPorIdEmpleado(Long idEmpleado) throws PersistenciaException;
-    
-    // Métodos de Cliente 
-    public Cliente autenticarCliente(String correo, String contrasenia) throws PersistenciaException;
-    
-    public Cliente obtenerClientePorId(String idCliente) throws PersistenciaException;
-    
-    public List<Cliente> buscarClientesPorNombre(String nombreBusqueda) throws PersistenciaException;
-    
 }

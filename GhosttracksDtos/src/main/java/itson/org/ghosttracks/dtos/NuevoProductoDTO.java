@@ -1,5 +1,6 @@
 package itson.org.ghosttracks.dtos;
 
+import java.io.File;
 import java.time.LocalDateTime;
 
 /**
@@ -11,24 +12,26 @@ public class NuevoProductoDTO {
     private String titulo;
     private String artista;
     private Double precio;
+    private String sku;
     private Integer stockInicial;
     private String tipo;
     private String genero;
-    private byte[] Imagen;
+    private File imagen;
     private LocalDateTime fechaRegistro;
 
     public NuevoProductoDTO() {
         
     }
 
-    public NuevoProductoDTO(String titulo, String artista, Double precio, Integer stockInicial, String tipo, String genero, byte[] Imagen, LocalDateTime fechaRegistro) {
+    public NuevoProductoDTO(String titulo, String artista, Double precio, String sku, Integer stockInicial, String tipo, String genero, File imagen, LocalDateTime fechaRegistro) {
         this.titulo = titulo;
         this.artista = artista;
         this.precio = precio;
+        this.sku = sku;
         this.stockInicial = stockInicial;
         this.tipo = tipo;
         this.genero = genero;
-        this.Imagen = Imagen;
+        this.imagen = imagen;
         this.fechaRegistro = fechaRegistro;
     }
 
@@ -56,6 +59,14 @@ public class NuevoProductoDTO {
         this.precio = precio;
     }
 
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
+    }
+
     public Integer getStockInicial() {
         return stockInicial;
     }
@@ -76,16 +87,16 @@ public class NuevoProductoDTO {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setIdGenero(String genero) {
         this.genero = genero;
     }
 
-    public byte[] getImagen() {
-        return Imagen;
+    public File getImagen() {
+        return imagen;
     }
 
-    public void setImagen(byte[] Imagen) {
-        this.Imagen = Imagen;
+    public void setImagen(File imagen) {
+        this.imagen = imagen;
     }
 
     public LocalDateTime getFechaRegistro() {
@@ -95,4 +106,5 @@ public class NuevoProductoDTO {
     public void setFechaRegistro(LocalDateTime fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
+    
 }

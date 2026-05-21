@@ -32,6 +32,7 @@
             <groupId>org.mongodb</groupId>
             <artifactId>mongodb-driver-sync</artifactId>
         </dependency>
+        
     </dependencies>
     
     <dependencyManagement>

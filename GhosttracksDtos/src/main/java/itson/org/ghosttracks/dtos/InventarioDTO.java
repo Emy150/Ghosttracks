@@ -14,4 +14,20 @@ public class InventarioDTO {
     public InventarioDTO() {
         
     }
+
+    public List<ProductoDTO> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(List<ProductoDTO> productos) {
+        this.productos = productos;
+    }
+
+    public Integer getTotalResultados() {
+        return totalResultados;
+    }
+
+    public void setTotalResultados(Integer totalResultados) {
+        this.totalResultados = totalResultados;
+    }
 }

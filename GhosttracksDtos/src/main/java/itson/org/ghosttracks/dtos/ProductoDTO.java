@@ -1,34 +1,40 @@
 package itson.org.ghosttracks.dtos;
 
+import java.time.LocalDateTime;
+
 /**
- *
+ * Producto DTO q funciona como respuesta
  * @author emyla
  */
 public class ProductoDTO {
 
     private String idProducto;
     private String titulo;
+    private String sku;
     private String artista;
     private Double precio;
     private Integer stockInicial;
     private String tipo;
     private String genero;
     private String estado;
+    private LocalDateTime fechaRegistro;
     private byte[] img;
 
     public ProductoDTO() {
         
     }
 
-    public ProductoDTO(String idProducto, String titulo, String artista, Double precio, Integer stockInicial, String tipo, String genero, String estado, byte[] img) {
+    public ProductoDTO(String idProducto, String titulo, String sku, String artista, Double precio, Integer stockInicial, String tipo, String genero, String estado, LocalDateTime fechaRegistro, byte[] img) {
         this.idProducto = idProducto;
         this.titulo = titulo;
+        this.sku = sku;
         this.artista = artista;
         this.precio = precio;
         this.stockInicial = stockInicial;
         this.tipo = tipo;
         this.genero = genero;
         this.estado = estado;
+        this.fechaRegistro = fechaRegistro;
         this.img = img;
     }
 
@@ -46,6 +52,14 @@ public class ProductoDTO {
 
     public void setTitulo(String titulo) {
         this.titulo = titulo;
+    }
+
+    public String getSku() {
+        return sku;
+    }
+
+    public void setSku(String sku) {
+        this.sku = sku;
     }
 
     public String getArtista() {
@@ -95,6 +109,14 @@ public class ProductoDTO {
     public void setEstado(String estado) {
         this.estado = estado;
     }
+
+    public LocalDateTime getFechaRegistro() {
+        return fechaRegistro;
+    }
+
+    public void setFechaRegistro(LocalDateTime fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
+    }
     
     public byte[] getImg() {
         return img;
@@ -103,5 +125,5 @@ public class ProductoDTO {
     public void setImg(byte[] img) {
         this.img = img;
     }
-    
+        
 }

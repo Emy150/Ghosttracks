@@ -1,12 +1,14 @@
 package itson.org.ghosttracks.bos;
 
 import itson.org.ghosttracks.daos.IPersistencia;
+import itson.org.ghosttracks.dtos.AdministradorDTO;
 import itson.org.ghosttracks.dtos.NuevoProductoDTO;
 import itson.org.ghosttracks.dtos.ProductoActualizadoDTO;
 import itson.org.ghosttracks.dtos.ProductoDTO;
 import itson.org.ghosttracks.entidades.Producto;
+import itson.org.ghosttracks.exceptions.PersistenciaException;
 import itson.org.ghosttracks.fachada.PersistenciaFachada;
-import itson.org.ghosttracks.negocio.adaptador.ProductoAdapter;
+import itson.org.ghosttracks.mappers.ProductoMapper;
 import itson.org.ghosttracks.negocio.interfaces.IProductosBO;
 import itson.org.ghosttracks.negocio.objetosNegocio.Excepciones.NegocioException;
 import java.util.ArrayList;
@@ -21,12 +23,15 @@ public class ProductosBO implements IProductosBO {
     
     private static final Logger LOGGER = Logger.getLogger(ProductosBO.class.getName());
     
-    private final IPersistencia persistencia; 
-    private final ProductoAdapter adapter;
+    private final IPersistencia persistencia; // Conector a la Fachada de datos
+    private final ProductoMapper mapper; // El traductor de formatos
+    private final AdministradoresBO administradoresBO; // Inyección de otro BO para validar permisos
 
     public ProductosBO() {
+        // En lugar de hacer un "new", usamos el patrón Singleton de la Fachada de persistencia
         this.persistencia = PersistenciaFachada.getInstancia();
-        this.adapter = new ProductoAdapter();
+        this.mapper = new ProductoMapper();
+        this.administradoresBO = new AdministradoresBO();
     }
     
     @Override
@@ -41,20 +46,20 @@ public class ProductosBO implements IProductosBO {
             }
 
             // Convertimos el DTO de la pantalla a una Entidad que la Persistencia entienda
-            Producto productoEntidad = adapter.adaptNuevoProductoDTOToProducto(nuevoDto);
+            Producto productoEntidad = mapper.fromNuevoDTO(nuevoDto);
             
             // Le pedimos a la fachada que lo registre
             Producto registrado = persistencia.registrarProducto(productoEntidad);
             
             // Devolvemos el producto registrado convertido a DTO para la vista
             LOGGER.fine("BO: Producto registrado con éxito mediante la fachada :D");
-            return adapter.adaptProductoToProductoDTO(registrado);
+            return mapper.toDTO(registrado);
             
         } catch (NegocioException e) {
             throw e; // Si es un error nuestro, lo lanzamos tal cual
         } catch (Exception e) {
-            LOGGER.severe("BO: Error al intentar registrar el producto :c");
-            throw new NegocioException("No se pudo completar el registro del producto", e);
+            e.printStackTrace(); 
+            throw new NegocioException("No se pudo completar el registro del producto");
         }
     }
 
@@ -67,56 +72,86 @@ public class ProductosBO implements IProductosBO {
             }
 
             // Primero adaptamos el DTO de actualización a nuestra entidad Producto
-            Producto productoAModificar = adapter.adaptProductoActualizadoDTOToProducto(actualizadoDto);
+            Producto producto = persistencia.consultarProductoPorId(actualizadoDto.getIdProducto());
+            ProductoMapper.updateEntity(producto, actualizadoDto);
             
-            // Mandamos a la fachada a que haga el cambio en los datos
-            Producto modificado = persistencia.modificarProducto(productoAModificar);
+            Producto modificado = persistencia.modificarProducto(producto); // Mandamos a la fachada a que haga el cambio en los datos
             
-            // Regresamos el resultado como DTO para que la interfaz se actualice
-            LOGGER.fine("BO: Producto modificado correctamente yey!");
-            return adapter.adaptProductoToProductoDTO(modificado);
+            LOGGER.fine("BO: Producto modificado correctamente yey!"); // Regresamos el resultado como DTO para que la interfaz se actualice
+            return mapper.toDTO(modificado);
             
         } catch (NegocioException e) {
             throw e;
         } catch (Exception e) {
             LOGGER.severe("BO: Falló la modificación del producto");
+            e.printStackTrace();
             throw new NegocioException("Error al actualizar el producto", e);
         }
     }
 
     @Override
-    public ProductoDTO eliminarProducto(String idProducto) throws NegocioException {
+    public ProductoDTO eliminarProducto(String idProducto, String correoAdmin, String contrasenia) throws NegocioException {
+
         try {
-            // Mandamos el ID directo a la fachada para que lo borre
+
+            // Delegamos la validación de seguridad al BO de Administradores 
+            AdministradorDTO admin = administradoresBO.validarAutorizacion(correoAdmin, contrasenia);
+
+            // Si el método de arriba nos dice que no existe o la contra está mal... cuello
+            if (admin == null) {
+                throw new NegocioException("No autorizado");
+            }
+            
+            // Si pasó el filtro, procedemos a decirle a la persistencia que lo borre de las tablas
             Producto eliminado = persistencia.eliminarProducto(idProducto);
+
+            return mapper.toDTO(eliminado);
+
+        } catch (PersistenciaException e) {
+            throw new NegocioException("Error al eliminar producto", e);
+        }
+    }
+    
+    @Override
+    public List<ProductoDTO> consultarCatalogoCompleto() throws NegocioException {
+        try {
+            // Traemos la lista de entidades crudas desde las tablas
+            List<Producto> productosEntidad = persistencia.consultarInventario();
             
-            LOGGER.fine("BO: Se eliminó el producto con ID: " + idProducto);
-            return adapter.adaptProductoToProductoDTO(eliminado);
-            
+            // Creamos una lista vacía para llenarla de DTOs aptos para la vista
+            List<ProductoDTO> productosDTO = new ArrayList<>();
+
+            // Ciclo que traduce uno por uno de Entidad -> DTO
+            for (Producto p : productosEntidad) {
+                productosDTO.add(ProductoMapper.toDTO(p));
+            }
+            LOGGER.fine("BO: Catálogo completo cargado correctamente");
+            return productosDTO;
+
         } catch (Exception e) {
-            LOGGER.severe("BO: No se pudo eliminar el producto con el id proporcionado");
-            throw new NegocioException("Error al eliminar el producto", e);
+            LOGGER.severe("BO: Error al consultar catálogo completo: " + e.getMessage());
+            e.printStackTrace();
+            throw new NegocioException("Error al consultar catálogo completo", e);
         }
     }
 
     @Override
     public List<ProductoDTO> buscarProductos(String filtro) throws NegocioException {
         try {
-            // Obtenemos la lista de entidades desde la fachada
-            List<Producto> productosEntidad = persistencia.buscarProductos(filtro);
+            // Le pedimos a la persistencia que ejecute la query de búsqueda con base al texto enviado
+            List<Producto> productosEntidad =
+                    persistencia.buscarProductos(filtro, null, null);
+
             List<ProductoDTO> productosDtos = new ArrayList<>();
-            
-            // Traducimos cada entidad de la lista a DTO
+
             for (Producto p : productosEntidad) {
-                productosDtos.add(adapter.adaptProductoToProductoDTO(p));
+                productosDtos.add(ProductoMapper.toDTO(p));
             }
-            
-            LOGGER.fine("BO: Búsqueda completada con " + productosDtos.size() + " resultados");
+
             return productosDtos;
-            
+
         } catch (Exception e) {
-            LOGGER.severe("BO: Error al realizar la búsqueda con el filtro: " + filtro);
-            throw new NegocioException("Error en la consulta de productos", e);
+            throw new NegocioException("Error al consultar inventario", e);
         }
     }
 

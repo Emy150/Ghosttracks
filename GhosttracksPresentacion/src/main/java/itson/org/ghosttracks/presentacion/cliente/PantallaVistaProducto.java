@@ -304,26 +304,9 @@ public class PantallaVistaProducto extends javax.swing.JPanel {
         lblArtista.setText(producto.getArtista());
         lblPrecio.setText(String.format("$%.2f", producto.getPrecio()));
 
-        try {
-            byte[] nombreArchivo = producto.getImg();
-            String ruta = "/imgVistaProducto/" + nombreArchivo;
-            
-            if (ruta != null && !ruta.isEmpty()) {
-                java.net.URL urlImagenLocal = getClass().getResource(ruta);
-                if (urlImagenLocal != null) {
-                    java.awt.Image imagenOriginal = javax.imageio.ImageIO.read(urlImagenLocal);
-                    java.awt.Image imagenEscalada = imagenOriginal.getScaledInstance(407, 407, java.awt.Image.SCALE_SMOOTH);
-                    lblImgProducto.setIcon(new javax.swing.ImageIcon(imagenEscalada));
-                    lblImgProducto.setText(""); 
-                } else {
-                    throw new Exception("No se encontró la ruta en el proyecto");
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error cargando imagen principal de: " + producto.getTitulo());
-            lblImgProducto.setIcon(null);
-            lblImgProducto.setText("Imagen no disp.");
-        }
+        javax.swing.ImageIcon icono = control.obtenerIconoProducto(producto, 407, 407);
+        lblImgProducto.setIcon(icono);
+        lblImgProducto.setText(""); 
     }
     
     private void cargarSugerenciasAlAzar() {

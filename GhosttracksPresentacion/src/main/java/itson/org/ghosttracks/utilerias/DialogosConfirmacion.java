@@ -1,7 +1,3 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package itson.org.ghosttracks.utilerias;
 
 import itson.org.ghosttracks.dtos.ProductoDTO;
@@ -17,16 +13,16 @@ import javax.swing.BoxLayout;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPasswordField;
+import javax.swing.JTextField;
 
 /**
- *
+ * Utilería para el despliegue de ventanas emergentes de confirmación personalizadas.
  * @author emyla
  */
 public class DialogosConfirmacion {
-    /**
-     * Muestra la primera alerta: ¿Está seguro de querer eliminar?
-     */
-    public static boolean solicitarConfirmacionEliminar(Window ventanaPadre, ProductoDTO producto) {
+
+    
+    public static boolean solicitarConfirmacionEliminar(Window ventanaPadre, ProductoDTO producto) { // Aquí le preguntamos al usuario si está seguro de lo q hará
         final boolean[] resultado = {false};
         
         JDialog dialog = new JDialog(ventanaPadre, Dialog.ModalityType.APPLICATION_MODAL);
@@ -81,12 +77,8 @@ public class DialogosConfirmacion {
         return resultado[0];
     }
 
-    /**
-     * Muestra la segunda alerta: Solicita la contraseña del Administrador.
-     * Retorna el texto ingresado o null si canceló.
-     */
-    public static String solicitarContraseniaAdmin(Window ventanaPadre) {
-        final String[] contraseniaIngresada = {null};
+    public static String[] solicitarCredencialesAdmin(Window ventanaPadre) { // Se piden las credenciales
+        final String[][] credenciales = {null};
 
         JDialog dialog = new JDialog(ventanaPadre, Dialog.ModalityType.APPLICATION_MODAL);
         dialog.setUndecorated(true);
@@ -95,32 +87,49 @@ public class DialogosConfirmacion {
         PanelRedondeado pnlAlerta = new PanelRedondeado();
         pnlAlerta.setBackground(new Color(220, 220, 220));
         pnlAlerta.setLayout(new BoxLayout(pnlAlerta, BoxLayout.Y_AXIS));
-        pnlAlerta.setBorder(BorderFactory.createEmptyBorder(25, 30, 25, 30));
+        pnlAlerta.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
 
-        JLabel lblTitulo = new JLabel("Autorización Requerida");
-        lblTitulo.setFont(new Font("Corbel", Font.BOLD, 22));
+        JLabel lblTitulo = new JLabel("Autorización de Administrador");
+        lblTitulo.setFont(new Font("Corbel", Font.BOLD, 20));
         lblTitulo.setForeground(new Color(30, 30, 30));
         lblTitulo.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JLabel lblIndicacion = new JLabel("Ingrese su contraseña de administrador:");
-        lblIndicacion.setFont(new Font("Corbel", Font.PLAIN, 16));
-        lblIndicacion.setForeground(new Color(60, 60, 60));
-        lblIndicacion.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Para el correo
+        JLabel lblCorreo = new JLabel("Correo Electrónico:");
+        lblCorreo.setFont(new Font("Corbel", Font.PLAIN, 15));
+        lblCorreo.setForeground(new Color(60, 60, 60));
+        lblCorreo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        JTextField txtCorreo = new JTextField();
+        txtCorreo.setFont(new Font("Arial", Font.PLAIN, 16));
+        txtCorreo.setMaximumSize(new Dimension(280, 35));
+        txtCorreo.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        // Para la contraseña
+        JLabel lblPassword = new JLabel("Contraseña:");
+        lblPassword.setFont(new Font("Corbel", Font.PLAIN, 15));
+        lblPassword.setForeground(new Color(60, 60, 60));
+        lblPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JPasswordField txtPassword = new JPasswordField();
-        txtPassword.setFont(new Font("Arial", Font.PLAIN, 18));
+        txtPassword.setFont(new Font("Arial", Font.PLAIN, 16));
+        txtPassword.setMaximumSize(new Dimension(280, 35));
         txtPassword.setAlignmentX(Component.CENTER_ALIGNMENT);
-        txtPassword.setMaximumSize(new Dimension(280, 40));
 
-        BotonRedondeado btnVerificar = new BotonRedondeado();
-        btnVerificar.setBackground(new Color(230, 94, 7));
-        btnVerificar.setForeground(Color.WHITE);
-        btnVerificar.setText("Confirmar");
-        btnVerificar.setFont(new Font("Arial", Font.BOLD, 18));
-        btnVerificar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnVerificar.setMaximumSize(new Dimension(280, 45));
-        btnVerificar.addActionListener(e -> {
-            contraseniaIngresada[0] = new String(txtPassword.getPassword());
+        // Botones
+        BotonRedondeado btnConfirmar = new BotonRedondeado();
+        btnConfirmar.setBackground(new Color(230, 94, 7));
+        btnConfirmar.setForeground(Color.WHITE);
+        btnConfirmar.setText("Autorizar");
+        btnConfirmar.setFont(new Font("Arial", Font.BOLD, 18));
+        btnConfirmar.setAlignmentX(Component.CENTER_ALIGNMENT);
+        btnConfirmar.setMaximumSize(new Dimension(280, 42));
+
+        btnConfirmar.addActionListener(e -> {
+            String correoText = (txtCorreo.getText() != null) ? txtCorreo.getText().trim() : "";
+            String passText = (txtPassword.getPassword() != null) ? new String(txtPassword.getPassword()) : "";
+            
+            credenciales[0] = new String[]{correoText, passText};
             dialog.dispose();
         });
 
@@ -130,25 +139,30 @@ public class DialogosConfirmacion {
         btnCancelar.setText("Cancelar");
         btnCancelar.setFont(new Font("Arial", Font.BOLD, 18));
         btnCancelar.setAlignmentX(Component.CENTER_ALIGNMENT);
-        btnCancelar.setMaximumSize(new Dimension(280, 45));
+        btnCancelar.setMaximumSize(new Dimension(280, 42));
         btnCancelar.addActionListener(e -> dialog.dispose());
 
+        // Ensamblado del Layout Estructurado
         pnlAlerta.add(lblTitulo);
-        pnlAlerta.add(Box.createVerticalStrut(10));
-        pnlAlerta.add(lblIndicacion);
         pnlAlerta.add(Box.createVerticalStrut(15));
+        pnlAlerta.add(lblCorreo);
+        pnlAlerta.add(Box.createVerticalStrut(5));
+        pnlAlerta.add(txtCorreo);
+        pnlAlerta.add(Box.createVerticalStrut(10));
+        pnlAlerta.add(lblPassword);
+        pnlAlerta.add(Box.createVerticalStrut(5));
         pnlAlerta.add(txtPassword);
         pnlAlerta.add(Box.createVerticalStrut(20));
-        pnlAlerta.add(btnVerificar);
-        pnlAlerta.add(Box.createVerticalStrut(12));
+        pnlAlerta.add(btnConfirmar);
+        pnlAlerta.add(Box.createVerticalStrut(10));
         pnlAlerta.add(btnCancelar);
 
         dialog.setContentPane(pnlAlerta);
         dialog.pack();
-        dialog.setSize(400, 280); 
+        dialog.setSize(400, 360); // Ajuste de altura balanceado para contener ambos formularios
         dialog.setLocationRelativeTo(ventanaPadre);
         dialog.setVisible(true);
 
-        return contraseniaIngresada[0];
+        return credenciales[0];
     }
 }

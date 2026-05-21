@@ -14,5 +14,5 @@ public interface IClientesDAO {
     
     Cliente autenticarCliente(String correo, String contrasena) throws PersistenciaException;
     
-    List<String> buscarIdsClientesPorNombre(String nombreCliente) throws PersistenciaException;
+    List<Cliente> buscarClientesPorNombre(String nombreCliente) throws PersistenciaException ;
 }

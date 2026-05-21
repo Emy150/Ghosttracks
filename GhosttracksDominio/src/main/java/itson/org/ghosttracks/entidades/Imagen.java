@@ -7,7 +7,7 @@ package itson.org.ghosttracks.entidades;
 public class Imagen {
     
     private String idImagen;
-    private byte[] bytes;
+    private byte[] datos;
     
     public Imagen(){
         
@@ -15,7 +15,7 @@ public class Imagen {
     
     public Imagen(String idImagen, byte[] bytes){
         this.idImagen = idImagen;
-        this.bytes = bytes;
+        this.datos = bytes;
     }
 
     public String getIdImagen() {
@@ -26,12 +26,12 @@ public class Imagen {
         this.idImagen = idImagen;
     }
 
-    public byte[] getBytes() {
-        return bytes;
+    public byte[] getDatos() {
+        return datos;
     }
 
-    public void setBytes(byte[] bytes) {
-        this.bytes = bytes;
+    public void setDatos(byte[] datos) {
+        this.datos = datos;
     }
 }
 

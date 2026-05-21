@@ -5,6 +5,7 @@ import itson.org.ghosttracks.dtos.ProductoDTO;
 import itson.org.ghosttracks.presentacion.VentanaPrincipal;
 import itson.org.ghosttracks.presentacion.administrador.PanelConfirmarEmpaquetado;
 import itson.org.ghosttracks.presentacion.administrador.PanelDatosPaquete;
+import itson.org.ghosttracks.presentacion.administrador.PantallaEditarProducto;
 import itson.org.ghosttracks.presentacion.administrador.PantallaGestionArticulos;
 import itson.org.ghosttracks.presentacion.administrador.PantallaVentasProcesarAdmin;
 import itson.org.ghosttracks.presentacion.administrador.PantallaVentas;
@@ -19,6 +20,9 @@ import itson.org.ghosttracks.utilerias.PanelHeader;
 import itson.org.ghosttracks.utilerias.pnlHeaderArticulos;
 import itson.org.ghosttracks.utilerias.pnlMenuLateral;
 import itson.org.ghosttracks.utilerias.pnlMenuLateralAdmin;
+import itson.org.ghosttracks.presentacion.administrador.PantallaNuevoProducto;
+import itson.org.ghosttracks.presentacion.administrador.PantallaReporteInventario;
+import itson.org.ghosttracks.utilerias.pnlHeaderReporte;
 import itson.org.ghosttracks.utilerias.pnlResumenPedidoConfirmado;
 import javax.swing.JPanel;
 
@@ -123,6 +127,7 @@ public class Navegador {
         ventana.cambiarPantalla(vistaBase);
     }
     
+    
     // GESTION DE ARTICULOS
     public void abrirGestionArticulos() {
         ventana.fijarHeader(new pnlHeaderArticulos());
@@ -131,6 +136,28 @@ public class Navegador {
         ctrl.llenarTablaInventario(vista);
         
         ventana.cambiarPantalla(vista);
+    }
+    
+    public void abrirPantallaAgregarProducto(){
+        ventana.fijarHeader(new pnlHeaderArticulos());
+        ControladorGestionArticulos ctrl = new ControladorGestionArticulos(this);
+        PantallaNuevoProducto vista = new PantallaNuevoProducto(ctrl);
+        ventana.cambiarPantalla(vista);
+    }
+    
+    public PantallaEditarProducto abrirPantallaEditarProducto() {
+        ventana.fijarHeader(new pnlHeaderArticulos());
+        PantallaEditarProducto pantallaEdicion = new PantallaEditarProducto();
+        ventana.cambiarPantalla(pantallaEdicion);
+        
+        return pantallaEdicion;
+    }
+    
+    public void abrirPantallaReporteInventario(){
+        ventana.fijarHeader(new pnlHeaderReporte());
+        ControladorGestionArticulos ctrl = new ControladorGestionArticulos(this);
+        PantallaReporteInventario pantallaReporte = new PantallaReporteInventario(ctrl);
+        ventana.cambiarPantalla(pantallaReporte);
     }
     
     //Utilidades

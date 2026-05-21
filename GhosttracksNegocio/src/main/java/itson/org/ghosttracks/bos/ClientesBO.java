@@ -6,7 +6,6 @@ import itson.org.ghosttracks.fachada.PersistenciaFachada;
 import itson.org.ghosttracks.negocio.interfaces.IClientesBO;
 import itson.org.ghosttracks.negocio.objetosNegocio.Excepciones.NegocioException;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -35,7 +34,7 @@ public class ClientesBO implements IClientesBO {
             }
             return cliente;
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "BO: Error al consultar el cliente por ID: " + idCliente, e);
+            LOGGER.severe("BO: Error al consultar el cliente por ID: " + idCliente + " | Detalle: " + e.getMessage());
             throw new NegocioException("Error en la base de datos al buscar al cliente.", e);
         }
     }
@@ -57,28 +56,19 @@ public class ClientesBO implements IClientesBO {
                 throw new NegocioException("Credenciales incorrectas o el cliente no existe.");
             }
 
-            LOGGER.fine("BO: Cliente autenticado con éxito: " + correo);
+            LOGGER.info("BO: Cliente autenticado con éxito: " + correo);
             return cliente;
         } catch (NegocioException e) {
             throw e; 
         } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "BO: Error inesperado durante el inicio de sesión de: " + correo, e);
+            LOGGER.severe("BO: Error inesperado durante el inicio de sesión de: " + correo + " | Detalle: " + e.getMessage());
             throw new NegocioException("Error interno al intentar iniciar sesión.", e);
         }
     }
 
     @Override
     public List<String> buscarIdsPorNombre(String nombreCliente) throws NegocioException {
-        if (nombreCliente == null || nombreCliente.trim().isEmpty()) {
-            throw new NegocioException("El filtro de nombre no puede estar vacío.");
-        }
-        try {
-            List<String> ids =  persistencia.buscarIdsClientesPorNombre(nombreCliente);
-            LOGGER.fine("BO: Se encontraron " + ids.size() + " IDs de clientes que coinciden con: " + nombreCliente);
-            return ids;
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "BO: Falló la consulta de filtrado de IDs por nombre: " + nombreCliente, e);
-            throw new NegocioException("Error al buscar filtros de clientes.", e);
-        }
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+    
 }

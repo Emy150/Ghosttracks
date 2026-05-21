@@ -2,6 +2,9 @@ package itson.org.ghosttracks.presentacion.administrador;
 
 import itson.org.ghosttracks.controladores.ControladorGestionArticulos;
 import itson.org.ghosttracks.dtos.ProductoDTO;
+import java.awt.event.ItemEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 /**
@@ -10,21 +13,65 @@ import java.util.List;
  */
 public class PantallaGestionArticulos extends javax.swing.JPanel {
 
-    
     private final ControladorGestionArticulos control;
     
     public PantallaGestionArticulos(ControladorGestionArticulos control) {
         this.control = control;
+        
         initComponents();
         control.llenarTablaInventario(this); 
         jScrollPane1.getVerticalScrollBar().setUnitIncrement(22);
+        configurarEventosFiltros();
     }
     
     public void cargarCatalogo(List<ProductoDTO> productos) {
-        // Redirigimos la lista al componente encargado de pintarlos
-        this.pnlCatalogo1.cargarCatalogo(productos, this.control);
+        if (this.pnlCatalogo.getParent() != null) {
+            this.pnlCatalogo.getParent().remove(this.pnlCatalogo);
+        }
+
+        this.pnlCatalogo.cargarCatalogo(productos, this.control);
+
+        javax.swing.JPanel contenedorElastico = new javax.swing.JPanel(new java.awt.BorderLayout());
+        contenedorElastico.setBackground(new java.awt.Color(237, 229, 222));
+
+        contenedorElastico.add(this.pnlCatalogo, java.awt.BorderLayout.NORTH);
+
+        jScrollPane1.setViewportView(contenedorElastico);
+
+        jScrollPane1.revalidate();
+        jScrollPane1.repaint();
+    }
+    
+    private void configurarEventosFiltros() {
+        txtBuscador.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent evt) {
+                dispararFiltro();
+            }
+        });
+        
+        cmbTipoArticulo.addItemListener(evt -> {
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+                dispararFiltro();
+            }
+        });
+        
+        comboBoxRedondeado1.addItemListener(evt -> {
+            if (evt.getStateChange() == ItemEvent.SELECTED) {
+                dispararFiltro();
+            }
+        });
+    }
+    
+    private void dispararFiltro() {
+        String texto = txtBuscador.getText();
+        String tipo = cmbTipoArticulo.getSelectedItem() != null ? cmbTipoArticulo.getSelectedItem().toString() : "Seleccionar tipo";
+        String estado = comboBoxRedondeado1.getSelectedItem() != null ? comboBoxRedondeado1.getSelectedItem().toString() : "Seleccionar estado";
+        
+        control.filtrarInventarioDinamico(this, texto, tipo, estado);
     }
 
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -36,7 +83,7 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
 
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        pnlCatalogo1 = new itson.org.ghosttracks.utilerias.pnlCatalogo();
+        pnlCatalogo = new itson.org.ghosttracks.utilerias.pnlCatalogo();
         lblTipo = new javax.swing.JLabel();
         cmbTipoArticulo = new itson.org.ghosttracks.utilerias.ComboBoxRedondeado();
         lblEstado = new javax.swing.JLabel();
@@ -51,7 +98,7 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
         jPanel1.setPreferredSize(new java.awt.Dimension(1100, 675));
 
         jScrollPane1.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        jScrollPane1.setViewportView(pnlCatalogo1);
+        jScrollPane1.setViewportView(pnlCatalogo);
 
         lblTipo.setFont(new java.awt.Font("Corbel", 1, 24)); // NOI18N
         lblTipo.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
@@ -164,11 +211,11 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
     }//GEN-LAST:event_txtBuscadorActionPerformed
 
     private void botonRedondeado1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRedondeado1ActionPerformed
-        // TODO add your handling code here:
+        control.abrirRegistroProducto();
     }//GEN-LAST:event_botonRedondeado1ActionPerformed
 
     private void botonRedondeado2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonRedondeado2ActionPerformed
-        // TODO add your handling code here:
+        control.abrirReporteInventario();
     }//GEN-LAST:event_botonRedondeado2ActionPerformed
 
 
@@ -181,7 +228,7 @@ public class PantallaGestionArticulos extends javax.swing.JPanel {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblTipo;
-    private itson.org.ghosttracks.utilerias.pnlCatalogo pnlCatalogo1;
+    private itson.org.ghosttracks.utilerias.pnlCatalogo pnlCatalogo;
     private itson.org.ghosttracks.utilerias.TextFieldRedondeado txtBuscador;
     // End of variables declaration//GEN-END:variables
 }

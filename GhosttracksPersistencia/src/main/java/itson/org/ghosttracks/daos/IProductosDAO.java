@@ -22,13 +22,7 @@ public interface IProductosDAO {
     
     public abstract List<Producto> consultarCatalogo() throws PersistenciaException;
     
-    public abstract List<Producto> buscarProductos(String filtro) throws PersistenciaException;
-    
-    public abstract List<Producto> buscarProductoPorTipo(TipoProducto tipo) throws PersistenciaException;
-    
-    public abstract List<Producto> buscarPorEstado(EstadoProducto estado) throws PersistenciaException;
-    
-    public abstract List<Producto> buscarPorGenero(String idGenero) throws PersistenciaException;
+    public List<Producto> buscarProductos(String filtro, TipoProducto tipo, EstadoProducto estado) throws PersistenciaException;
     
     public abstract List<Producto> consultarStockCritico() throws PersistenciaException;
     

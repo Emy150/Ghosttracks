@@ -51,6 +51,7 @@ public class pnlMenuLateralAdmin extends javax.swing.JPanel {
         btnInicio.setText("Inicio");
         btnInicio.setBorder(null);
         btnInicio.setPreferredSize(new java.awt.Dimension(250, 40));
+        btnInicio.addActionListener(this::btnInicioActionPerformed);
 
         btnArticulos.setBackground(new java.awt.Color(230, 94, 7));
         btnArticulos.setFont(new java.awt.Font("Corbel", 1, 30)); // NOI18N
@@ -141,6 +142,10 @@ public class pnlMenuLateralAdmin extends javax.swing.JPanel {
     private void btnArticulosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnArticulosActionPerformed
         navegador.abrirGestionArticulos();
     }//GEN-LAST:event_btnArticulosActionPerformed
+
+    private void btnInicioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInicioActionPerformed
+        navegador.iniciarSesionAdminExitoso();
+    }//GEN-LAST:event_btnInicioActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

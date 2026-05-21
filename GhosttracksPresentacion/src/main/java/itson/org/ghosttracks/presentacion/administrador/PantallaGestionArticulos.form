@@ -132,7 +132,7 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="itson.org.ghosttracks.utilerias.pnlCatalogo" name="pnlCatalogo1">
+            <Component class="itson.org.ghosttracks.utilerias.pnlCatalogo" name="pnlCatalogo">
             </Component>
           </SubComponents>
         </Container>

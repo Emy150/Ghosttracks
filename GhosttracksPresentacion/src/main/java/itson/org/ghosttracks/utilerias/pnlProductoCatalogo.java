@@ -22,37 +22,18 @@ public class pnlProductoCatalogo extends javax.swing.JPanel {
         initComponents();
         this.producto = producto;
         this.control = control;
-        
+
         lblNombreProducto.setText(producto.getTitulo());
         lblArtista.setText(producto.getArtista());
         lblPrecio.setText("$" + producto.getPrecio());
-        
-        
-        try {
-            byte[] nombreArchivo = producto.getImg();
-            
-            String ruta = "/imgCatalogo/" + nombreArchivo;
-            
-            if (ruta != null && !ruta.isEmpty()) {
-                java.net.URL urlImagenLocal = getClass().getResource(ruta);
-                
-                if (urlImagenLocal != null) {
-                    java.awt.Image imagenOriginal = javax.imageio.ImageIO.read(urlImagenLocal);
-                    
-                    java.awt.Image imagenEscalada = imagenOriginal.getScaledInstance(180, 175, java.awt.Image.SCALE_SMOOTH);
-                    
-                    lblImg.setIcon(new javax.swing.ImageIcon(imagenEscalada));
-                    lblImg.setText(""); 
-                } else {
-                    throw new Exception("Ruta no encontrada: " + ruta);
-                }
-            }
-        } catch (Exception e) {
-            System.out.println("Error cargando imagen de: " + producto.getTitulo() + " - " + e.getMessage());
-            lblImg.setIcon(null);
-            lblImg.setText("Imagen no disp.");
-        }
+
+        // Le pides el icono directamente al controlador que ya tienes aquí
+        javax.swing.ImageIcon icono = control.obtenerIconoProducto(producto, 180, 175);
+        lblImg.setIcon(icono);
+        lblImg.setText(""); 
+
         this.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent evt) {
                 control.irADetalleProducto(producto);
             }

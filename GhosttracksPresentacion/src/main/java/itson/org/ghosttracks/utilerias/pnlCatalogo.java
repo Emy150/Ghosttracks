@@ -25,21 +25,18 @@ public class pnlCatalogo extends javax.swing.JPanel {
         this.controlador = controlador;
     }
     
-    // 1. Añadimos el parámetro 'ControladorGestionArticulos controlador' a la firma del método
     public void cargarCatalogo(List<ProductoDTO> productos, ControladorGestionArticulos controlador) {
-        // 2. Guardamos el controlador que viene de la pantalla en la variable local de este panel
         this.controlador = controlador;
 
         pnlCatalogo.removeAll();
         pnlCatalogo.setLayout(new javax.swing.BoxLayout(pnlCatalogo, javax.swing.BoxLayout.Y_AXIS));
 
-        int alturaRenglon = 75; 
+        int alturaRenglon = 65; 
         int cantidadProductos = productos.size();
 
         for (ProductoDTO producto : productos) {
             pnlArticuloCatalogo renglon = new pnlArticuloCatalogo();
 
-            // 3. ¡Listo! Ahora 'this.controlador' ya NO es null y se inyecta con éxito al renglón
             renglon.cargarDatos(producto, this.controlador);
 
             renglon.setMaximumSize(new java.awt.Dimension(Short.MAX_VALUE, alturaRenglon));

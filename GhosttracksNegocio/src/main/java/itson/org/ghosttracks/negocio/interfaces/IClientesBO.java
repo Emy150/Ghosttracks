@@ -9,7 +9,7 @@ public interface IClientesBO {
     public abstract Cliente obtenerClientePorId(String idCliente) throws NegocioException;
     
     public abstract Cliente iniciarSesion(String correo, String contrasena) throws NegocioException;
-    
+        
     public abstract List<String> buscarIdsPorNombre(String nombreCliente) throws NegocioException;
     
 }

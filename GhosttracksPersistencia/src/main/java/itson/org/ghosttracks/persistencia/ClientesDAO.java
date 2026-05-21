@@ -74,32 +74,27 @@ public class ClientesDAO implements IClientesDAO, IBaseMongoDAO {
     }
 
     @Override
-    public List<String> buscarIdsClientesPorNombre(String nombreCliente) throws PersistenciaException {
-        List<String> ids = new ArrayList<>();
-        if (nombreCliente == null || nombreCliente.trim().isEmpty()) {
-            return ids;
-        }
+    public List<Cliente> buscarClientesPorNombre(String nombreCliente) throws PersistenciaException {
         try (MongoClient cliente = ManejadorConexiones.crearConexion()) {
             MongoDatabase baseDatos = this.obtenerBaseDatos(cliente);
             MongoCollection<Cliente> coleccion = this.obtenerColeccion(baseDatos);
 
-            String patron = nombreCliente.trim();
-            
-            Bson filtroNombre = Filters.or(
-                Filters.regex("nombre", patron, "i"),
-                Filters.regex("apellidoPaterno", patron, "i"),
-                Filters.regex("apellidoMaterno", patron, "i")
-            );
-            List<Cliente> clientesEncontrados = coleccion.find(filtroNombre).into(new ArrayList<>());
-
-            for (Cliente c : clientesEncontrados) {
-                if (c.getIdUsuario() != null) { 
-                    ids.add(c.getIdUsuario());
-                }
+            if (nombreCliente == null || nombreCliente.trim().isEmpty()) {
+                return new ArrayList<>();
             }
-            return ids;
+
+            Bson filtroNombre = Filters.or(
+                    Filters.regex("nombre", nombreCliente, "i"),
+                    Filters.regex("apellidoPaterno", nombreCliente, "i"),
+                    Filters.regex("apellidoMaterno", nombreCliente, "i")
+            );
+
+            return coleccion.find(filtroNombre)
+                    .into(new ArrayList<>());
+
         } catch (Exception e) {
-            throw new PersistenciaException("Error al buscar filtros de clientes en la base de datos.", e);
+
+            throw new PersistenciaException("Error al buscar clientes por nombre en la base de datos.", e);
         }
     }
 }
